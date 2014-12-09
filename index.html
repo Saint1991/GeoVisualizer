@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html ng-app="geovisualizer">
+
+<head>
+	<title>GeoVisualizer</title>
+	<meta charset="UTF-8">
+	<meta name="keywords" content="GeoLife, Visualizer">
+	<meta name="author" content="Saint1991">
+
+	<link rel="stylesheet" href="./css/reset.css">
+	<link rel="stylesheet" href="./css/layout.css">
+	<link rel="stylesheet" href="./css/slider.css">
+
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&region=JP"></script>
+	<script type="text/javascript" src="./bower_components/jquery/dist/jquery.js"></script>
+	<script type="text/javascript" src="./bower_components/angular/angular.js"></script>
+</head>
+
+<body>
+
+<div id="app">
+
+	<!-- ページ左のツールボックス -->
+	<div id="tools">
+		tools
+	</div>
+
+	<!-- 中央のMapView -->
+	<div id="map" ng-controller="mapController" google-map>
+		map
+		<div id="google-map">gmap</div>
+		
+		<div id="slider-box">
+			<input id="slider" type="range" min="0"/>
+		</div>
+	</div>
+
+	<!-- ページ右部の読み込みファイル一覧 -->
+	<div id="datas">
+
+		<div id="user">
+			<div id="user-icon">icon</div>
+			<div id="user-name">name</div>
+		</div>
+
+		<div id="file-list-box" ng-controller="filelistController">
+			
+			<div id="filelist" ng-model="fileList">
+				<ul>
+					<li ng-repeat="file in fileList" class="file-entry">
+									{{loaded}}
+					</li>
+				</ul>
+			</div>
+
+			<div id="file-api" >
+				<input id="file" type="file" multiple="true" name="fileList" ng-model="selectedFiles" ng-change="filelistChanged($event)">
+				<input type="text" id="selected-files" readonly>
+				<input type="button" id="file-add-button" value="Add" >
+			</div>	
+		</div>
+	</div>	
+
+</div>
+
+<script type="text/javascript" src="./js/module.js"></script>
+<script type="text/javascript" src="./js/controllers/app-controller.js"></script>
+<script type="text/javascript" src="./js/controllers/map-controller.js"></script>
+<script type="text/javascript" src="./js/controllers/filelist-controller.js"></script>
+
+</body>
+
+</html>

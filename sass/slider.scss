@@ -1,0 +1,51 @@
+
+@charset "UTF-8";
+
+//variables
+$vendor-prefixes: -webkit-, -moz-, -ms-, -o-, ' ';
+$slider-color: rgba(32, 255, 26, 1);
+
+//mixins
+@mixin vendor-depend-property ($property, $value) {
+	@each $prefix in $vendor-prefixes {
+		#{$prefix}#{$property}: $value;
+	}
+}
+
+
+@mixin range-track {
+	width: 100%;
+	height: 2px;
+	vertical-align: middle;
+	background-color: $slider-color;
+}
+
+@mixin range-thumb {
+	width: 10px;
+	height: 15px;
+	background-color: $slider-color;
+	vertical-align: middle;
+}
+
+	
+input[type="range"] {
+	@include vendor-depend-property (appearance, none);
+	@include range-track;
+}
+
+input[type="range"]::-moz-range-track {
+	appearance: none;
+	@include range-track;
+
+}
+	
+input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	@include range-thumb;
+}	
+
+input[type="range"]::-moz-range-thumb {
+	-moz-appearance: none;
+	@include range-thumb;
+}
+

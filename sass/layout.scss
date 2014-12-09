@@ -1,0 +1,186 @@
+
+@charset "UTF-8";
+
+//variables
+$vendor-prefixes: -webkit-, -moz-, -ms-, -o-, ' ';
+
+
+//$background-color: rgba(20, 20, 20, 1);
+$background-color: rgba(255, 255, 255, 1);
+$border-color: rgba(32, 255, 26, 1);
+$border-style: solid 1px $border-color;
+
+$layout-height: 945px;
+$layout-min-width: 1000px;
+
+$gmap-height:740px;
+
+
+
+//mixins
+@mixin vendor-depend-property ($property, $value) {
+	@each $prefix in $vendor-prefixes {
+		#{$prefix}#{$property}: $value;
+	}
+}
+
+@mixin display-box {
+	display: flex;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-box;
+	display: box;
+}
+
+//layout
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+body {
+	min-width: $layout-min-width;
+	height: $layout-height;
+	overflow: auto;
+}
+
+#app {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	margin: 0px auto;
+	background-color: $background-color;
+	flex-wrap: wrap;
+	@include display-box;
+	@include vendor-depend-property(box-pack, justify);
+
+
+
+	
+	#tools {
+		position: relative;
+		width: 400px;
+		height: 100%;
+		border-right: $border-style;
+	}
+
+	#map {
+		position: relative;
+		height: 100%;
+		@include vendor-depend-property(box-flex, 1.0);
+		flex: 1 0 auto;
+
+		#google-map {
+			position: relative;
+			min-width: 400px;
+			height: $gmap-height;
+			border-top: $border-style;
+			border-bottom: $border-style;
+			margin: 25px auto;
+			margin-top: 64px;
+		}
+
+		#slider-box {
+			
+			position: relative;
+			width: 100%;
+
+			#slider {
+				position :relative;
+				width: 100%;
+			}
+		}
+
+	}
+
+	#datas {
+		position:relative;
+		width: 300px;
+		height: 100%;
+		min-width: 300px;
+		border-left: $border-style;
+		
+		#user {
+			position: relative;
+			width: 100%;
+			height: 80px;
+			border-bottom: $border-style;
+			@include display-box;
+
+			#user-icon {
+				width: 80px;
+				
+			}
+
+			#user-name {
+				@include vendor-depend-property(box-flex, 1.0);
+			}
+		}
+
+		#file-list-box {
+
+			position: relative;
+			height: 830px;
+
+
+			#filelist {
+				position: relative;
+				height: 740px;
+				overflow: auto;
+				//border-top: $border-style;
+				border-bottom: $border-style;
+			}
+			
+			#file-api {
+				
+				position: relative;
+				width: 100%;
+				height: 25px;
+				flex-wrap: wrap;
+				@include display-box;
+				@include vendor-depend-property(box-pack, justify);
+
+
+				#file {
+					position: absolute;
+					width: 100%;
+					opacity: 0;
+					filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+					z-index: 2;
+					top: 0px;
+					right: 0px;
+					margin: 0px;
+					cursor: pointer;
+				}
+
+				#selected-files {
+					position: relative;
+					float: right;
+					height: 25px;
+					margin: 0px;
+					border: $border-style;
+					@include vendor-depend-property(box-flex, 3.0);
+					flex: 3 0 auto;
+				}
+				
+				#file-add-button {
+					position: relative;
+					float: right;
+					height: 27px;
+					margin: 0px;
+					border: none;
+					background: $border-color;
+					color: Snow;
+					font-size: 1.05em;
+					@include vendor-depend-property(box-flex, 1.0);
+					flex: 1 0 auto;
+				}
+
+				
+			}
+			
+		}
+	}
+
+}
+
