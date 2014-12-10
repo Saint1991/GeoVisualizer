@@ -77,7 +77,7 @@ body {
 			border-top: $border-style;
 			border-bottom: $border-style;
 			margin: 25px auto;
-			margin-top: 64px;
+			margin-top: 80px;
 		}
 
 		#slider-box {
@@ -134,46 +134,34 @@ body {
 			#file-api {
 				
 				position: relative;
-				width: 100%;
+				float: right;
+				width: 40%;
 				height: 25px;
-				flex-wrap: wrap;
-				@include display-box;
-				@include vendor-depend-property(box-pack, justify);
-
+				cursor: pointer;
 
 				#file {
 					position: absolute;
 					width: 100%;
+					height: 100%;
 					opacity: 0;
 					filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
-					z-index: 2;
+					z-index: 5;
 					top: 0px;
 					right: 0px;
 					margin: 0px;
 					cursor: pointer;
+					
 				}
 
-				#selected-files {
-					position: relative;
-					float: right;
-					height: 25px;
-					margin: 0px;
-					border: $border-style;
-					@include vendor-depend-property(box-flex, 3.0);
-					flex: 3 0 auto;
-				}
-				
 				#file-add-button {
 					position: relative;
-					float: right;
-					height: 27px;
+					width: 100%;
+					height: 100%;
 					margin: 0px;
 					border: none;
 					background: $border-color;
 					color: Snow;
 					font-size: 1.05em;
-					@include vendor-depend-property(box-flex, 1.0);
-					flex: 1 0 auto;
 				}
 
 				
@@ -183,4 +171,5 @@ body {
 	}
 
 }
+
 

@@ -18,7 +18,7 @@
 
 <body>
 
-<div id="app">
+<div id="app" ng-controller="appController">
 
 	<!-- ページ左のツールボックス -->
 	<div id="tools">
@@ -27,7 +27,7 @@
 
 	<!-- 中央のMapView -->
 	<div id="map" ng-controller="mapController" google-map>
-		map
+		
 		<div id="google-map">gmap</div>
 		
 		<div id="slider-box">
@@ -44,18 +44,16 @@
 		</div>
 
 		<div id="file-list-box" ng-controller="filelistController">
-			
-			<div id="filelist" ng-model="fileList">
+			<div id="filelist" ng-model="datas">
 				<ul>
-					<li ng-repeat="file in fileList" class="file-entry">
-									{{loaded}}
+					<li ng-repeat="file in datas" class="file-entry">
+						{{file.name}}
 					</li>
 				</ul>
 			</div>
 
 			<div id="file-api" >
-				<input id="file" type="file" multiple="true" name="fileList" ng-model="selectedFiles" ng-change="filelistChanged($event)">
-				<input type="text" id="selected-files" readonly>
+				<input id="file" type="file" multiple="true" name="fileList" ng-model="selectedFiles" data-file-change="filelistChanged($event, files);">
 				<input type="button" id="file-add-button" value="Add" >
 			</div>	
 		</div>
