@@ -43,6 +43,10 @@
 		return fileChangeDef;
 	}]);
 
+
+	//Definitions of Service
+	fileListModule.value('FileReadService', function())
+
 	
 	//Definitions of Controller
 	fileListModule.controller('filelistController', ['$scope', function($scope) {
@@ -58,6 +62,8 @@
 			for (var i = 0; i < files.length; i++) {
 				$scope.$parent.datas.push(files);
 			}
+
+			var reader = new FileReader();
 		};
 
 	}]);

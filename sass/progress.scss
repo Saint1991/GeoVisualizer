@@ -1,0 +1,20 @@
+
+#progress-window {
+	position: fixed;
+	width: 600px;
+	height:280px;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	bagkground-color: Snow;
+	border: solid 1px #000;
+
+	#progress-bar {
+		position: relative;
+		width: 80%;
+		height: 35px;
+		margin: 0px auto;
+		border: solid 1px #000;
+	}
+}
