@@ -24,10 +24,13 @@
 			
 			//Add to DOM
 			$('body').prepend(overlay);
+			overlay.fadeIn();
 		};
 
 		var hideModalLayer = function() {
-			$('#modal-overlay').remove();
+			var overlay = $('#modal-overlay');
+			ovarlay.fadeOut();
+			overlay.remove();
 		};
 
 
