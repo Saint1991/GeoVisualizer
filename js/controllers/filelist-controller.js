@@ -45,11 +45,11 @@
 
 
 	//Definitions of Service
-	fileListModule.value('FileReadService', function())
+	//fileListModule.value('FileReadService', function())
 
 	
 	//Definitions of Controller
-	fileListModule.controller('filelistController', ['$scope', function($scope) {
+	fileListModule.controller('filelistController', ['$scope', 'modal', function($scope, modal) {
 		
 		//this is  a filel list loaded so far
 		$scope.fileList = [];

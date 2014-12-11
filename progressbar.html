@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html>
-<header>
-<link rel="stylesheet" href="./css/progress.css">
-</header>
-<body>
-<div id="progress-window">
+
+<div id="progress-window" ng-controller="progressController">
 	<div id="progress-contents">
 		<div id="progress-bar">
 			<div id="progress-indicator"></div>
 		</div>
-		<div id="progress-label">100%</div>
+		<div id="progress-label" ng-bind="progressStr"></div>
 	</div>	
 </div>
-</body>
-</html>
