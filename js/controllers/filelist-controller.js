@@ -15,15 +15,10 @@
 	fileListModule.directive('fileChange', ['$parse', function($parse) {
 
 		var fileChangeDef = {
-			
 			require: 'ngModel',
-
 			restrict: 'A',
-			
 			scope: false,
-
 			template: '',
-			
 			link: function ($scope, element, attrs, ngModel) {
 
 				var fileChange = attrs['fileChange'];

@@ -46,8 +46,8 @@
 			var startProgress = function(color, onclick) {
 				
 				//Show Overlay
-				$overlay = showModalLayer(color, onclick);
-				var progressBar = $(
+				var $overlay = showModalLayer(color, onclick);
+				var $progressBar = $(
 					'<div id="progress-window" ng-controller="progressController">
 						<div id="progress-contents">
 							<div id="progress-bar">
@@ -62,7 +62,7 @@
 			};
 
 			var end = function() {
-				var progressBar = $('#progress-window');
+				var $progressBar = $('#progress-window');
 				if (progressBar.length > 0) {
 					$('#progress-window').remove();
 				}
