@@ -60,7 +60,7 @@
 					+ '</div>'
 				);
 
-				$overlay.append(progressBar);
+				$overlay.append($progressBar);
 			};
 
 			var end = function() {

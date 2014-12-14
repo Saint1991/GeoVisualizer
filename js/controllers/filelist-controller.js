@@ -61,15 +61,22 @@
 			var totalSize = 0;
 			for (var i = 0; i < files.length; i++) {
 				totalSize += files[i].size;
+				console.log(totalSize);
 			}
 
 			//Start Loading Each File
 			var reader = new FileReader();
 
-			//Event Handler called When  successfully Completed File Loading
+			reader.onprogress = function($event) {
+				var progress = $event.loaded / totalSize;
+				console.log(progress);
+				$scope.$$ChildScope.progress = progress;
+			}
+
+			//Add Event Handler which is called When Comlete File Loading
 			reader.onload = function() {
 				console.log(reader.result);
-			}
+			};
 
 			for (var i = 0; i < files.length; i++) {
 				reader.readAsText(files[i], 'UTF-8');
