@@ -2,7 +2,7 @@
 
 (function() {
 	
-	var modalModuls = angular.module('utils.module');
+	var modalModule = angular.module('utils.modal');
 
 	//Definition of Service
 	var modal = (function() {
@@ -17,7 +17,9 @@
 				overlay = $('<div></div>', {id: 'modal-overlay'});
 			
 				//Add Click Event
-				overlay.on('click', onclick);
+				if (onclick) {
+					overlay.on('click', onclick);
+				}
 				
 				//Add to DOM
 				var $body = $('body');
@@ -43,19 +45,19 @@
 		//modal.progressbar object
 		var progressBar = (function() {
 
-			var startProgress = function(color, onclick) {
+			var startProgress = function(onclick) {
 				
 				//Show Overlay
-				var $overlay = showModalLayer(color, onclick);
+				var $overlay = showModalLayer(onclick);
 				var $progressBar = $(
-					'<div id="progress-window" ng-controller="progressController">
-						<div id="progress-contents">
-							<div id="progress-bar">
-								<div id="progress-indicator"></div>
-							</div>
-							<div id="progress-label" ng-bind="progressStr"></div>
-						</div>	
-					</div>'
+					'<div id="progress-window" ng-controller="progressController">'
+					+	'<div id="progress-contents">'
+					+		'<div id="progress-bar">'
+					+			'<div id="progress-indicator"></div>'
+					+		'</div>'
+					+		'<div id="progress-label" ng-bind="progressStr"></div>'
+					+	'</div>'	
+					+ '</div>'
 				);
 
 				$overlay.append(progressBar);
@@ -77,7 +79,7 @@
 
 	})();
 
-	modalModules.value('modal', modal);
+	modalModule.value('modal', modal);
 
 
 	

@@ -54,11 +54,27 @@
 
 		//this event listener is called when files are loaded
 		$scope.filelistChanged = function($event, files) {
+
+			modal.progressBar.startProgress();
+
+			//Calculate Total File Size
+			var totalSize = 0;
 			for (var i = 0; i < files.length; i++) {
-				$scope.$parent.datas.push(files);
+				totalSize += files[i].size;
 			}
 
+			//Start Loading Each File
 			var reader = new FileReader();
+
+			//Event Handler called When  successfully Completed File Loading
+			reader.onload = function() {
+				console.log(reader.result);
+			}
+
+			for (var i = 0; i < files.length; i++) {
+				reader.readAsText(files[i], 'UTF-8');
+			}
+
 		};
 
 	}]);

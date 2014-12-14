@@ -12,6 +12,7 @@ body {
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.8);
 	margin: 0px;
+	z-index: 5;
 	border: none;
 }
 
@@ -23,6 +24,7 @@ body {
 	left: 0px;
 	bottom: 0px;
 	right: 0px;
+	z-index: 10;
 	margin: 0px auto;
 	background-color: Snow;
 	border: solid 8px $border-color;
