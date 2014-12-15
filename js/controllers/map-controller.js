@@ -1,9 +1,9 @@
 'use strict';
 
 (function() {
-	
-	var mapModule = angular.module('geovisualizer.map');
 
+	var mapModule = angular.module('geovisualizer.map');
+	
 	//Definition of Directive
 	mapModule.directive('googleMap', function() {
 
@@ -11,6 +11,7 @@
 
 			restrict: 'A',
 			scope: false,
+			controller: 'mapController',
 			compile: function(bindElement, mapAttrs) {
 
 				var mapElement = bindElement[0];
@@ -21,7 +22,7 @@
 				});
 
 				return function(scope, element, attrs, controller, transclude ) {
-
+					scope.map = map;
 				}
 
 			}
@@ -32,12 +33,5 @@
 
 	var mapController = mapModule.controller('mapController', ['$scope', function($scope) {
 		
-		$scope.latitude = 0;
-		$scope.longitude = 0;
-
-		$scope.moveTo = function (point) {
-			$scope.latitude = point.latitude;
-			$scope.longitude = point.longitude;
-		};
 	}]);
 })();
