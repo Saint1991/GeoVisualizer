@@ -15,7 +15,6 @@
 	fileListModule.directive('fileChange', ['$parse', function($parse) {
 
 		var fileChangeDef = {
-			require: 'ngModel',
 			restrict: 'A',
 			scope: false,
 			template: '',
@@ -44,40 +43,43 @@
 
 	
 	//Definitions of Controller
-	fileListModule.controller('filelistController', ['$scope', 'modal', function($scope, modal) {
+	var fileListController = fileListModule.controller('filelistController', ['$scope', 'modal', 'fileList', 'geoData', function($scope, modal, fileList, geoData) {
 		
 		//this is  a filel list loaded so far
-		$scope.fileList = [];
-
-		//this is an array that receive the change of input type="file"
-		$scope.selectedFiles = [];
+		$scope.fileList = fileList;	
 
 		//this event listener is called when files are loaded
 		$scope.filelistChanged = function($event, files) {
 
-			modal.progressBar.startProgress();
-
-			//Calculate Total File Size
-			var totalSize = 0;
-			for (var i = 0; i < files.length; i++) {
-				totalSize += files[i].size;
-				console.log(totalSize);
-			}
-
-			//Start Loading Each File
 			var reader = new FileReader();
 
-			reader.onprogress = function($event) {
-				var progress = $event.loaded / totalSize;
-				console.log(progress);
-				$scope.$$ChildScope.progress = progress;
-			}
+			reader.onloadstart = function() {
+
+				modal.progressBar.start();
+
+				for (var i = 0; i < files.length; i++) {
+
+					var file = files[i];
+
+					if ( ($.inArray(file, $scope.fileList)) === -1 ) {
+						$scope.fileList.push(file);
+					}
+				}
+
+				$scope.$apply();
+			};
+
+			reader.onprogress = function(progressEvent) {
+				var progress =Math.floor(progressEvent.loaded / progressEvent.total * 100);
+				modal.progressBar.setProgress(progress);
+			};
 
 			//Add Event Handler which is called When Comlete File Loading
 			reader.onload = function() {
 				console.log(reader.result);
 			};
 
+			//Start Loading FIles
 			for (var i = 0; i < files.length; i++) {
 				reader.readAsText(files[i], 'UTF-8');
 			}
@@ -86,5 +88,9 @@
 
 	}]);
 
+	//使えるか微妙
+	fileListController.controller('progressController', ['$scope', 'modal', function($scope, modal) {
+		modal.progressBar.controller($scope, modal);
+	}]);
 
 })();

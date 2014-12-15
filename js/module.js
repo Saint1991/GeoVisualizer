@@ -1,3 +1,4 @@
+'use strict';
 
 (function() {
 
@@ -7,10 +8,13 @@
 		'geovisualizer.models'
 	]);
 
-	angular.module('utils.modal', []);
-	angular.module('geovisualizer.filelist', ['geovisualizer.fileparse', 'utils.modal']);
-	angular.module('geovisualizer.fileparse', ['geovisualizer.models']);
-	angular.module('geovisualizer.models', []);
+	
+	angular.module('geovisualizer.filelist', ['geovisualizer.fileparse', 'utils.modal','geovisualizer.models']);
 	angular.module('geovisualizer.map', []);
+	
+	angular.module('utils.modal', []);
+	angular.module('geovisualizer.fileparse', []);
+	angular.module('geovisualizer.models', ['uuid4']);
+	
 	
 })();

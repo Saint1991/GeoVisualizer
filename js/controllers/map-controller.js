@@ -5,22 +5,24 @@
 	var mapModule = angular.module('geovisualizer.map');
 
 	//Definition of Directive
-	mapModule.directive('google-map', function() {
+	mapModule.directive('googleMap', function() {
 
 		var directiveConfig = {
-			compile: function(mapElement, mapAttrs, mapTransclude) {
 
-				//google mapを表示する
-				var createMap = function() {
-					var mapConfig = {
-	         					center: new google.maps.LatLng(34.82, 135.524),
-	                				mapTypeId: google.maps.MapTypeId.ROADMAP,
-	                				zoom: 15
-					};
-					var mapCanvas = new google.maps.Map(mapElement, mapConfig);
-				};
-				
-				return createMap;
+			restrict: 'A',
+			scope: false,
+			compile: function(bindElement, mapAttrs) {
+
+				var mapElement = bindElement[0];
+				var map = new google.maps.Map(mapElement, {
+					center: new google.maps.LatLng(34.82, 135.524),
+	                			mapTypeId: google.maps.MapTypeId.ROADMAP,
+	                			zoom: 15
+				});
+
+				return function(scope, element, attrs, controller, transclude ) {
+
+				}
 
 			}
 		};
@@ -29,8 +31,13 @@
 	});
 
 	var mapController = mapModule.controller('mapController', ['$scope', function($scope) {
+		
+		$scope.latitude = 0;
+		$scope.longitude = 0;
 
-
-
+		$scope.moveTo = function (point) {
+			$scope.latitude = point.latitude;
+			$scope.longitude = point.longitude;
+		};
 	}]);
 })();

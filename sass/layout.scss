@@ -75,17 +75,18 @@ body {
 		#google-map {
 			position: relative;
 			min-width: 400px;
+			width: 90%;
 			height: $gmap-height;
-			border-top: $border-style;
-			border-bottom: $border-style;
+			border: solid 4px $border-color;
 			margin: 25px auto;
-			margin-top: 80px;
+			margin-top: 50px;
 		}
 
 		#slider-box {
 			
 			position: relative;
-			width: 100%;
+			width: 90%;
+			margin: 0px auto;
 
 			#slider {
 				position :relative;
@@ -123,14 +124,49 @@ body {
 
 			position: relative;
 			height: 830px;
-
+			
+			#filelist-header {
+				position: relative;
+				width: 100%;
+				height: 25px;
+				line-height: 25px;
+				padding: 5px;
+				text-align: center;
+				vertical-align: middle;
+				color: Snow;
+				font-size: 1.2em;
+				background-color: $border-color;
+			}
 
 			#filelist {
 				position: relative;
 				height: 740px;
 				overflow: auto;
-				//border-top: $border-style;
 				border-bottom: $border-style;
+
+				
+
+				.file-entry {
+					
+					padding: 10px;
+					border-bottom: solid 1px $border-color;	
+
+					&:hover {
+						background-color: Yellow;
+					}
+					
+					.fileName {
+						font-weight: 0.8;
+						margin: 5px;
+					}
+
+					.fileSize {
+						font-weight: 0.8;
+						font-size: 0.9em;
+						color: rgba(130, 130, 130, 1);
+						margin-left:  5px;
+					}
+				}
 			}
 			
 			#file-api {

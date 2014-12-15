@@ -12,9 +12,11 @@
 	<link rel="stylesheet" href="./css/slider.css">
 	<link rel="stylesheet" href="./css/modal.css">
 
+	<!-- External JS Libraries and Frameworks -->
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&region=JP"></script>
 	<script type="text/javascript" src="./bower_components/jquery/dist/jquery.js"></script>
 	<script type="text/javascript" src="./bower_components/angular/angular.js"></script>
+	<script type="text/javascript" src="./bower_components/angular-uuid4/angular-uuid4.js"></script>
 </head>
 
 <body>
@@ -27,9 +29,9 @@
 	</div>
 
 	<!-- 中央のMapView -->
-	<div id="map" ng-controller="mapController" google-map>
+	<div id="map" ng-controller="mapController" >
 		
-		<div id="google-map">gmap</div>
+		<div id="google-map" google-map></div>
 		
 		<div id="slider-box">
 			<input id="slider" type="range" min="0" value="0"/>
@@ -45,16 +47,18 @@
 		</div>
 
 		<div id="file-list-box" ng-controller="filelistController">
-			<div id="filelist" ng-model="datas">
+			<div id="filelist-header">Loaded Files</div>
+			<div id="filelist" ng-model="fileList">
 				<ul>
-					<li ng-repeat="file in datas" class="file-entry">
-						{{file.name}}
+					<li ng-repeat="file in fileList" class="file-entry">
+						<div class="fileName">{{file.name}}</div>
+						<div class="fileSize">{{file.size}} Byte</div>
 					</li>
 				</ul>
 			</div>
 
 			<div id="file-api" >
-				<input id="file" type="file" multiple="true" name="fileList" ng-model="selectedFiles" data-file-change="filelistChanged($event, files);">
+				<input id="file" type="file" multiple="true" name="fileList" data-file-change="filelistChanged($event, files);" accept="text/plain, text/xml, .plt">
 				<input type="button" id="file-add-button" value="Add" >
 			</div>	
 		</div>
@@ -62,14 +66,15 @@
 
 </div>
 
+<!-- my implementations -->
 <script type="text/javascript" src="./js/module.js"></script>
 <script type="text/javascript" src="./js/utils/modal.js"></script>
 <script type="text/javascript" src="./js/services/file-parser.js"></script>
-<script type="text/javascript" src="./js/models/GeoLife/geolife-dataformat.js"></script>
+<script type="text/javascript" src="./js/models/SharedService.js"></script>
+<script type="text/javascript" src="./js/models/dataFactory/GeoLife/geoLifeDataFactory.js"></script>
 <script type="text/javascript" src="./js/controllers/app-controller.js"></script>
 <script type="text/javascript" src="./js/controllers/map-controller.js"></script>
 <script type="text/javascript" src="./js/controllers/filelist-controller.js"></script>
-
 
 </body>
 
