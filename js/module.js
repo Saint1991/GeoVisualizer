@@ -3,16 +3,16 @@
 (function() {
 
 	angular.module('geovisualizer', [
-		'geovisualizer.map',
+		'saint.googlemap',
 		'geovisualizer.filelist',
 		'geovisualizer.models'
 	]);
 
 	
-	angular.module('geovisualizer.filelist', ['geovisualizer.fileparse', 'utils.modal','geovisualizer.models']);
-	angular.module('geovisualizer.map', []);
+	angular.module('geovisualizer.filelist', ['geovisualizer.fileparse', 'saint.modal','geovisualizer.models']);
+	angular.module('saint.googlemap', []);
 	
-	angular.module('utils.modal', []);
+	angular.module('saint.modal', []);
 	angular.module('geovisualizer.fileparse', []);
 	angular.module('geovisualizer.models', ['uuid4']);
 	

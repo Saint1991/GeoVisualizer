@@ -10,7 +10,7 @@ $background-color: rgba(255, 255, 255, 1);
 $border-color: rgba(32, 255, 26, 1);
 $border-style: solid 1px $border-color;
 
-$layout-height: 945px;
+$layout-height: 928px;
 $layout-min-width: 1000px;
 
 $gmap-height:740px;
@@ -67,10 +67,13 @@ body {
 	}
 
 	#map {
+		
 		position: relative;
 		height: 100%;
 		@include vendor-depend-property(box-flex, 1.0);
 		flex: 1 0 auto;
+		text-align: center;
+
 
 		#google-map {
 			position: relative;
@@ -78,10 +81,36 @@ body {
 			width: 90%;
 			height: $gmap-height;
 			border: solid 4px $border-color;
+			box-sizing: border-box; 
 			margin: 25px auto;
 			margin-top: 50px;
-		}
+			padding: 0px;
 
+			#google-map-overlay {
+				position: relative;
+				width: 100%;
+				height: 100%;
+				margin: 0px;
+				border: none;
+				z-index: 100000;
+
+				#map-information {
+					position: fixed;
+					right: 5px;
+					top: 5px;
+					width: 80px;
+					height: 30px;
+					border: $border-style;
+					z-index: 10000000;
+					font-size: 3em;
+					color: $border-color;
+				}
+
+			}
+			
+		}
+		
+		
 		#slider-box {
 			
 			position: relative;
@@ -94,7 +123,21 @@ body {
 			}
 		}
 
+		#map-footer {
+			position: absolute;
+			width: 100%;
+			height: 30px;
+			border-top: $border-style;
+			bottom: 0px;
+			font-size: 0.9em;
+			line-height: 30px;
+			vertical-align: middle;
+			text-align: right;
+			color: blue;
+		}
+
 	}
+		
 
 	#datas {
 		position:relative;
@@ -208,6 +251,12 @@ body {
 		}
 	}
 
+}
+
+#message {
+	font-size: 3em;
+	color: red;
+	z-index: 100;
 }
 
 

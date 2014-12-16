@@ -29,13 +29,15 @@
 	</div>
 
 	<!-- 中央のMapView -->
-	<div id="map" ng-controller="mapController" >
+	<div id="map" >
 		
-		<div id="google-map" google-map></div>
-		
+		<div id="google-map" google-map ng-transclude ng-controller="mapController" center="[39.9039, 116.4074]" zoom="13"></div>
+
 		<div id="slider-box">
 			<input id="slider" type="range" min="0" value="0"/>
 		</div>
+
+		<div id="map-footer"></div>
 	</div>
 
 	<!-- ページ右部の読み込みファイル一覧 -->
@@ -75,7 +77,16 @@
 <script type="text/javascript" src="./js/controllers/app-controller.js"></script>
 <script type="text/javascript" src="./js/controllers/map-controller.js"></script>
 <script type="text/javascript" src="./js/controllers/filelist-controller.js"></script>
+<script type="text/javascript">
+	
+	var mapOverlay = document.getElementById('google-map-overlay');
+	var context = mapOverlay.getContext('2d');
+	context.beginPath();
+	context.font = 'test';
+	context.fillStyle = "green";
+	context.fillText("left", 500, 500)
 
+</script>
 </body>
 
 </html>

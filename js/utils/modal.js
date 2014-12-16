@@ -2,7 +2,7 @@
 
 (function() {
 	
-	var modalModule = angular.module('utils.modal');
+	var modalModule = angular.module('saint.modal');
 
 	modalModule.factory('modal', ['$compile', function($compile) {
 
