@@ -5,7 +5,8 @@
 	angular.module('geovisualizer', [
 		'saint.googlemap',
 		'geovisualizer.filelist',
-		'geovisualizer.models'
+		'geovisualizer.models',
+		'saint.userinfo'
 	]);
 
 	
@@ -13,6 +14,7 @@
 	angular.module('saint.googlemap', []);
 	
 	angular.module('saint.modal', []);
+	angular.module('saint.userinfo', ['ngCookies']);
 	angular.module('geovisualizer.fileparse', []);
 	angular.module('geovisualizer.models', ['uuid4']);
 	
