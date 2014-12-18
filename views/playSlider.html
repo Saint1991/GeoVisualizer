@@ -1,0 +1,13 @@
+
+<input id="slider" type="range" min="0" max="50" ng-model="value"/>
+	
+<div id="slider-controllers">
+	<input type="button" ng-click="toZero()" class="slider-button" id="reset-button">
+	<input type="button" ng-click="play()" ng-if="!isPlaying" class="slider-button" id="play-button">
+	<input type="button" ng-click="pause()" ng-if="isPlaying" class="slider-button" id="pause-button">
+	
+	<div class="labeled-text-box">
+		<div class="text-box-label">Speed</div>
+		<input type="number" ng-model="playSpeed" id="speed-text">
+	</div>
+</div>

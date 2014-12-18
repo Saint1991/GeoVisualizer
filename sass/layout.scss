@@ -121,19 +121,88 @@ body {
 				position :relative;
 				width: 100%;
 			}
-		}
 
-		#map-footer {
-			position: absolute;
-			width: 100%;
-			height: 30px;
-			border-top: $border-style;
-			bottom: 0px;
-			font-size: 0.9em;
-			line-height: 30px;
-			vertical-align: middle;
-			text-align: right;
-			color: blue;
+			#slider-controllers {
+				position: relative;
+				width: 100%;
+				height: 40px;
+				margin-top: 20px;
+				padding: 0px;
+				text-align: left;
+				@include display-box;
+
+
+				.slider-button {
+					position: relative;
+					width: 60px;
+					height: 100%;
+					margin: 0px;
+					border: $border-style;
+					box-sizing: border-box;
+					background-color: $background-color;
+					cursor: pointer;
+
+
+					&:hover {
+						background-color: Yellow;
+					}
+				}
+
+				#reset-button {
+					background: url('../images/reset.png') no-repeat;
+					background-size: 35px 25px;
+					background-position: center center;
+				}
+
+				#play-button {
+					background: url('../images/play.png') no-repeat;
+					background-size: 30px 25px;
+					background-position: center center;
+				}
+
+				#pause-button {
+					background: url('../images/pause.png') no-repeat;
+					background-size: 25px 20px;
+					background-position: center center;
+				}
+				
+				.labeled-text-box {
+					position: relative;
+					width: 60px;
+					height: 100%;
+					margin: 0px;
+					box-sizing: border-box;
+					z-index: 5;
+					margin-left: 6px;
+
+
+					.text-box-label {
+						position: relative;
+						width: 100%;
+						height: 15px;
+						color: Snow;
+						background-color: $border-color;
+						box-sizing: border-box;
+						font-size: 0.8em;
+						padding: 1px;
+						text-align: center;
+					}
+
+					#speed-text {
+						position: relative;
+						float: left;
+						width: 60px;
+						height: 25px;
+						margin: 0px;
+						border: $border-style;
+						box-sizing: border-box;
+						font-size: 1.1em;
+						text-align: center;
+						color: $border-color;
+					}
+				}
+				
+			}
 		}
 
 	}
@@ -283,10 +352,5 @@ body {
 
 }
 
-#message {
-	font-size: 3em;
-	color: red;
-	z-index: 100;
-}
 
 

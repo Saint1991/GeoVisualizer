@@ -12,7 +12,6 @@
 
 			restrict: 'EA',
 			scope: false,
-			transclude: true,
 			compile: function(bindElement, mapAttrs) {
 
 				var center = angular.fromJson(mapAttrs.center);
@@ -43,7 +42,7 @@
 					
 					//Check whether its scope is mapController
 					if (!$scope.name || $scope.name !== 'mapController') {
-						throw "mapController is not binded";
+						throw "mapController is not bound";
 					}
 
 					//Initialize the scope value

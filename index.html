@@ -34,11 +34,11 @@
 		
 		<div id="google-map" google-map ng-controller="mapController" center="[39.9039, 116.4074]" zoom="13" showmapinfo="true"></div>
 
-		<div id="slider-box">
-			<input id="slider" type="range" min="0" value="0"/>
+		
+		<div id="slider-box" ng-controller="playSliderController">
+			<play-slider/>
 		</div>
 
-		<div id="map-footer"></div>
 	</div>
 
 	<!-- ページ右部の読み込みファイル一覧 -->
@@ -80,8 +80,10 @@
 <script type="text/javascript" src="./js/services/file-parser.js"></script>
 <script type="text/javascript" src="./js/models/SharedService.js"></script>
 <script type="text/javascript" src="./js/models/dataFactory/GeoLife/geoLifeDataFactory.js"></script>
+<script type="text/javascript" src="./js/filters/filters.js"></script>
 <script type="text/javascript" src="./js/controllers/app-controller.js"></script>
 <script type="text/javascript" src="./js/controllers/map-controller.js"></script>
+<script type="text/javascript" src="./js/controllers/slider-controller.js"></script>
 <script type="text/javascript" src="./js/controllers/filelist-controller.js"></script>
 <script type="text/javascript" src="./js/controllers/userinfo-controller.js"></script>
 
