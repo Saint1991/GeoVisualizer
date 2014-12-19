@@ -25,6 +25,8 @@
 
 				var slider = element.find('input[type=range]');
 				slider.attr('max', max);
+
+				$scope.value = 0;
 			}
 
 		};
@@ -32,12 +34,50 @@
 		return playSliderDirective;
 	}]);
 
+	//Event for Angular called when slider value changed
+	playSliderModule.directive('sliderValueChanged', ['$parse', function($parse) {
+
+		var sliderValueChangeDef = {
+			'restrict': 'A',
+			scope: false,
+			link: function($scope, element, attrs) {
+
+				//Check Controller
+				if ($scope.name !== 'playSliderController') {
+					console.error('playSliderController is not bound');
+				}
+
+				if (!element) {
+					console.error('er');
+				}
+
+				var sliderValueChanged = attrs['sliderValueChanged'];
+				var attrHandler = $parse(sliderValueChanged);
+				var handler = function(e) {
+					$scope.$apply(function() {
+						attrHandler($scope, {$event: e, newValue: e.target.value});
+					});
+				};
+
+				var el = element[0];
+				$(el).on('input', handler);
+
+				$scope.$watch('value', function(newValue, oldValue, scope) {
+					element.val(newValue);
+					$scope.$emit('PlaySliderValueChanged', newValue);
+				});
+			}
+		};
+
+		return sliderValueChangeDef;
+	}]);
+
 	playSliderModule.controller('playSliderController', ['$scope', function($scope) {
 
 		$scope.name = 'playSliderController';
 		
 		// bound to slider value
-		$scope.value = 0;
+		$scope.value = -1;
 
 		// bound to playSpped text box
 		$scope.playSpeed = 1;
@@ -47,6 +87,10 @@
 
 		//max value of the slider 
 		$scope.max = 10;
+
+		$scope.sliderValueChanged = function($event, newValue) {
+			$scope.value = newValue;
+		};
 
 		// reset Slider value
 		$scope.toZero = function() {
@@ -64,10 +108,11 @@
 					
 					if ($scope.max <= $scope.value) {
 						$scope.pause();
+						$scope.$apply();
+						return;
 					}
 
 					$scope.value++;
-					$scope.$emit('PlaySliderValueChanged', $scope.value);
 					$scope.$apply();
 				};
 

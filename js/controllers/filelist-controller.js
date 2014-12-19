@@ -17,11 +17,20 @@
 		var fileChangeDef = {
 			restrict: 'A',
 			scope: false,
-			template: '',
-			link: function ($scope, element, attrs, ngModel) {
+			link: function ($scope, element, attrs) {
+
+				//Check Controller
+				if ($scope.name !== 'fileListController') {
+					console.error('fileListController is not bound');
+				}
+
+				//check bound element
+				if (!element) {
+					console.error('er');
+				}
 
 				var fileChange = attrs['fileChange'];
-;				var attrHandler = $parse(attrs['fileChange']);
+;				var attrHandler = $parse(fileChange);
 				var handler = function(e) {
 					$scope.$apply(function() {
 						attrHandler($scope, {$event: e, files: e.target.files});
@@ -29,7 +38,7 @@
 				};
 
 				var el = element[0];
-				$(element[0]).on('change', handler);
+				$(el).on('change', handler);
 
 			}
 		};
@@ -45,6 +54,8 @@
 	//Definitions of Controller
 	var fileListController = fileListModule.controller('filelistController', ['$scope', 'modal', 'fileList', 'geoData', function($scope, modal, fileList, geoData) {
 		
+		$scope.name = 'fileListController';
+
 		//this is  a filel list loaded so far
 		$scope.fileList = fileList;	
 

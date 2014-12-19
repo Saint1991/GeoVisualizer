@@ -7,7 +7,7 @@
 
 		var user = $cookieStore.get('user');
 		if(!user) {
-			$scope.username='guest';
+			$scope.username = 'guest';
 			return;
 		}
 
