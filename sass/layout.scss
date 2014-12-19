@@ -10,10 +10,10 @@ $background-color: rgba(255, 255, 255, 1);
 $border-color: rgba(32, 255, 26, 1);
 $border-style: solid 1px $border-color;
 
-$layout-height: 928px;
+$layout-height: 1063px;
 $layout-min-width: 1200px;
 
-$gmap-height:740px;
+$gmap-height: 740px;
 
 
 
@@ -64,6 +64,7 @@ body {
 		width: 400px;
 		height: 100%;
 		border-right: $border-style;
+		padding: 15px;
 	}
 
 	#map {
@@ -161,9 +162,9 @@ body {
 				}
 
 				#pause-button {
-					@extend #play-button;
 					background: url('../images/pause.png') no-repeat;
 					background-size: 25px 20px;
+					background-position: center center;
 				}
 				
 				.labeled-text-box {

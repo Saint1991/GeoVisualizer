@@ -6,7 +6,7 @@
 	
 	//Definition of  google-map Directive.
 	//To display google Map in any elements you can use this directive as an "google-map" attribute
-	mapModule.directive('googleMap', ['$compile', function($compile) {
+	mapModule.directive('googleMap', ['$compile', 'MarkerFactory', function($compile, MarkerFactory) {
 
 		var googleMapDirective = {
 
@@ -51,6 +51,9 @@
 					var longitude = center.D.toFixed(4);
 					$scope.center = {'latitude': latitude, 'longitude': longitude};
 					$scope.zoom = map.getZoom();
+
+					//save map object to scope
+					$scope.map = map;
 
 					//Add MapInformationWindow if showmapinfo attribute value is 'true'
 					var showInfoWindow = attrs.showmapinfo === 'true';
@@ -123,7 +126,90 @@
 		return googleMapDirective;
 	}]);
 
-	
+
+
+	//Definitions of map Components
+	mapModule.factory('MarkerFactory', [function() {
+
+		var iterator = 0;
+		var colors = [
+			'rgba(32, 255, 26, 1)',
+			'Blue',
+			'Red',
+			'Yellow',
+			'Orange',
+			'BlueViolet',
+			'DeepPink',
+			'Aqua',
+			'Teal',
+			'Maroon',
+			'Black',
+			'Gray',
+			'White',
+			'Salmon',
+			'PeachPuff',
+			'DarkGreen'
+		];
+
+		var markerFactory = function(map, position, infoContents,  markerColor) {
+			
+			var color = markerColor;
+			if (!color) {
+				color = colors[iterator++];
+				if (colors.length <= iterator) {
+					iterator = 0;
+				}
+			}
+
+			var markerOptions = {
+				map: map,
+				icon: {
+					path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+					fillColor: color,
+					fillOpacity: 1,
+					strokeColor: 'black',
+					scale: 5,
+					strokeWeight: 1
+				}
+			};
+
+			if (position && position instanceof google.maps.LatLng) {
+				markerOptions.position = position;
+			}
+
+			var marker = new google.maps.Marker(markerOptions);
+			marker.id = iterator;
+			
+			//Definition of infoWindow opens when marker is clicked
+			var infoDiv = document.createElement('div');
+			if (typeof(infoContents) === 'string') {
+				infoDiv.textContent = infoContents;
+			} else if (infoContents instanceof Node) {
+				infoDiv.appendChild(infoContents);
+			}
+			var infoWindow = new google.maps.InfoWindow({
+				maxWidth: 300,
+				pixelOffset: new google.maps.Size(0, 5),
+				content: infoDiv
+			});
+
+
+			google.maps.event.addListener(marker, 'click', function() {
+				infoWindow.open(marker.getMap(), marker);
+			});
+
+			return marker;
+		};
+
+		var Marker = function(map, position, markerInfo, markerColor) {
+			var marker = markerFactory(map, position, markerInfo, markerColor);
+			return marker;
+		};
+
+		return Marker;
+	}]);
+
+
 
 	//Definition of mapController
 	var mapController = mapModule.controller('mapController', ['$scope', function($scope) {
@@ -166,6 +252,27 @@
 
 
 		};
+
+		//pan center to disignated position
+		$scope.moveTo = function(latitude, longitude) {
+			if ($scope.map) {
+				
+				if (latitude instanceof google.maps.LatLng) {
+					$scope.map.setCenter(latitude);
+					return;
+				}
+
+				var center = new google.maps.LatLng(latitude, longitude);
+				$scope.map.setCenter(center);
+			}
+		};
+
+		//
+		$scope.fitBounds = function(topLeft, bottomRight) {
+			if ($scope.map) {
+				$scope.map.fitBounds(topLeft, bottomRight);
+			}
+		}
 
 		//mouse point for information
 		$scope.mousePoint = {'latitude': 0, 'longitude': 0};
