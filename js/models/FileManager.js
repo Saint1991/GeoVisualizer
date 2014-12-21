@@ -8,10 +8,10 @@
 	var modelModule = angular.module('geovisualizer.models');
 	modelModule.service('FileManager', [function() {
 		
-		var indexOf = function(fileList, search) {
+		var indexOf = function(files, search) {
 			
-			for (var i = 0; i < fileList.length; i++) {
-				var file = fileList[i];
+			for (var i = 0; i < files.length; i++) {
+				var file = files[i];
 				if (file.name === search.name && file.size === search.size) {
 					return i;
 				}
@@ -22,6 +22,10 @@
 
 
 		this.fileList = [];
+
+		this.getLength = function() {
+			return this.fileList.length;
+		};
 		
 		this.remove = function(target, size) {
 				

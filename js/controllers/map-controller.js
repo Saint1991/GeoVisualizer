@@ -53,9 +53,6 @@
 					$scope.center = {'latitude': latitude, 'longitude': longitude};
 					$scope.zoom = map.getZoom();
 
-					//save map object to scope
-					$scope.map = map;
-
 					//Add MapInformationWindow if showmapinfo attribute value is 'true'
 					var showInfoWindow = attrs.showmapinfo === 'true';
 					if (showInfoWindow) {
@@ -204,10 +201,64 @@
 		return Marker;
 	}]);
 
+	//Definition of MarkerManager which manages markers
+	mapModule.service('MarkerManager', [function() {
+
+		var markerList = [];
+
+		this.init = function() {
+			for (var i = 0; i < markerList.length; i++) {
+				markerList[i].setMap(null);
+				delete markerList[i];
+			}
+			markerList = [];
+		};
+
+		this.setPosition = function(id, position) {
+			
+			var marker = markerList[id];
+			if (!marker) {
+				console.log('Invalid Marker ID');
+				return;
+			}
+
+			if (!(position instanceof google.maps.LatLng)) {
+				console.error('position is not instance of google.maps.LatLng');
+				return;
+			}
+
+			marker.setPosition(position);
+		};
+
+		this.hide = function(id) {
+			var marker = markerList[id];
+			if (!marker) {
+				console.log('Invalid marker ID');
+				return;
+			}
+			marker.setMap(null);
+		};
+
+		this.remove = function(id) {
+			this.hide(id);
+			markerList.splice(id, 1);
+		};
+
+		this.add = function(marker) {
+			var index = markerList.indexOf(marker);
+			if (index === -1) {
+				markerList.push(marker);
+			} else {
+				markerList[index] = marker;
+			}
+		};
+
+	}]);
+
 
 
 	//Definition of mapController
-	var mapController = mapModule.controller('mapController', ['$scope', function($scope) {
+	var mapController = mapModule.controller('mapController', ['$scope', 'MarkerManager', 'Marker', function($scope, MarkerManager, Marker) {
 		
 		//ControllerName
 		$scope.name = 'mapController';
@@ -248,26 +299,74 @@
 
 		};
 
+
 		//pan center to disignated position
-		$scope.moveTo = function(latitude, longitude) {
-			if ($scope.map) {
+		var moveTo = function(latitude, longitude) {
+			if (map) {
 				
 				if (latitude instanceof google.maps.LatLng) {
-					$scope.map.setCenter(latitude);
+					map.setCenter(latitude);
 					return;
 				}
 
 				var center = new google.maps.LatLng(latitude, longitude);
-				$scope.map.setCenter(center);
+				map.setCenter(center);
 			}
 		};
 
-		//
-		$scope.fitBounds = function(topLeft, bottomRight) {
-			if ($scope.map) {
-				$scope.map.fitBounds(topLeft, bottomRight);
+		
+		var fitBounds = function(topLeft, bottomRight) {
+			if (map) {
+				map.fitBounds(topLeft, bottomRight);
 			}
-		}
+		};
+
+		var zoomTo = function(level) {
+			if (map) {
+				map.setZoom(level);
+			}
+		};
+
+
+		//Init Markers
+		$scope.$on('initMarkers', function(event, markerNum) {
+			MarkerManager.init();
+			for (var id = 0; id < markerNum; id++) {
+				MarkerManager.add(new Marker());
+			}
+		});
+
+		//behavior when receive the data
+		$scope.$on('dataBroadcast', function(event, receive) {
+			
+			var data = receive.data;
+			if (!data) {
+				console.log('data is empty');
+			}
+
+			for (var id = 0; id < data.length; id++) {
+				
+				var entry = data[id];
+				if (entry.isAlive && entry.data) {
+					
+					var position = new google.maps.LatLng(entry.data.latitude, entry.data.longitude);
+
+					if (id === 0 && receive.isFirst) {
+						moveTo(position);
+						zoomTo(16);
+					}
+
+					MarkerManager.setPosition(id, position);
+
+				} else {
+					MarkerManager.hide(id);
+				}
+			}
+
+		});
+
+
+
 
 		//mouse point for information
 		$scope.mousePoint = {'latitude': 0, 'longitude': 0};

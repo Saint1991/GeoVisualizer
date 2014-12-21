@@ -81,7 +81,7 @@
 					};
 
 					reader.onprogress = function(progressEvent) {
-						progress += Math.ceil(progressEvent.loaded / totalSize * 100);
+						progress += Math.ceil(progressEvent.loaded / totalSize * 50);
 						modal.progressBar.setProgress(progress);
 					};
 
@@ -102,7 +102,10 @@
 						fileManager.push(trajectoryFile);
 						$scope.$apply();
 						$scope.$emit('FileListChanged');
-					}	
+
+						progress += Math.ceil(file.size / totalSize * 50);
+						modal.progressBar.setProgress(progress);
+					};	
 
 					reader.readAsText(files[i], 'UTF-8');
 

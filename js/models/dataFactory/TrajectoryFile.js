@@ -24,9 +24,9 @@
 			var median = Math.floor(length / 2);
 			var medianValue = sortedArray[median].timestamp.getTime();
 			if (search < medianValue) {
-				ret = find(sortedArray.slice(0, median - 1), search);
+				ret = find(sortedArray.slice(0, median), search);
 			} else if (medianValue < search) {
-				ret = find(sortedArray.slice(median + 1, length - 1), search);
+				ret = find(sortedArray.slice(median + 1, length), search);
 			} else {
 				return sortedArray[median];
 			}

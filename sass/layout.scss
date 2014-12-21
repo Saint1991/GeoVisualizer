@@ -206,6 +206,21 @@ body {
 			}
 		}
 
+		#date-indicator {
+			position: relative;
+			width: 180px;
+			height: 40px;
+			border: solid 3px $border-color;
+			float: right;
+			box-sizing: border-box;
+			margin-top: -40px;
+			margin-right: 60px;
+			line-height: 40px;
+			vertical-align: middle;
+			font-size: 1.1em;
+			color: $border-color;
+		}
+
 	}
 		
 
