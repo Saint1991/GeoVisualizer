@@ -9,25 +9,29 @@
 
 			var length = sortedArray.length;
 			var threshold = 5;	
+			var ret = null;
 
 			if (length < threshold) {
-				for (var i = 0; i < threshold; i++) {
-					if (sortedArray.timestamp.getTime() === search) {
+				for (var i = 0; i < sortedArray.length; i++) {
+					var time = sortedArray[i].timestamp.getTime();
+					if (sortedArray[i].timestamp.getTime() === search) {
 						return sortedArray[i];
 					}
 				}
 				return null;
 			}
 
-			var median = length / 2;
-			medianValue = sortedArray[median].timestamp.getTime();
-			if (medianValue < search) {
-				find(sortedArray.slice(0, median - 1), search);
-			} else if (search < medianValue) {
-				find(sortedArray.slice(median + 1, length - 1), search);
+			var median = Math.floor(length / 2);
+			var medianValue = sortedArray[median].timestamp.getTime();
+			if (search < medianValue) {
+				ret = find(sortedArray.slice(0, median - 1), search);
+			} else if (medianValue < search) {
+				ret = find(sortedArray.slice(median + 1, length - 1), search);
 			} else {
 				return sortedArray[median];
 			}
+
+			return ret;
 		};
 
 		// sort data in order by timestamp

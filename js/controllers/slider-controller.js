@@ -26,7 +26,7 @@
 				var slider = element.find('input[type=range]');
 				slider.attr('max', max);
 
-				$scope.value = 0;
+				$scope.value = -1;
 			}
 
 		};

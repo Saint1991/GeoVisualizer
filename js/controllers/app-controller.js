@@ -15,8 +15,10 @@
 			if (!indexes) {
 				return;
 			}
+			console.log(indexes);
 
-			console.log(indexes[sliderValue]);
+			var key = indexes[sliderValue];
+			var data = FileManager.get(key);
 		});
 
 		//This is called when loaded fileList is Changed

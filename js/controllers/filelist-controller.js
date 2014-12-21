@@ -71,30 +71,43 @@
 			}
 
 			//Start Loading FIles
-			for (var i = 0; i < files.length; i++) {
+			for (var i = 0; i < files.length; i++) {				
 
 				var reader = new FileReader();
+				(function(file, reader) {
 
-				reader.onloadstart = function() {
-					modal.progressBar.start();
-				};
+					reader.onloadstart = function() {
+						modal.progressBar.start();
+					};
 
-				reader.onprogress = function(progressEvent) {
-					progress += Math.ceil(progressEvent.loaded / totalSize * 100);
-					modal.progressBar.setProgress(progress);
-				};
+					reader.onprogress = function(progressEvent) {
+						progress += Math.ceil(progressEvent.loaded / totalSize * 100);
+						modal.progressBar.setProgress(progress);
+					};
 
-				//Add Event Handler which is called When Comlete File Loading
-				reader.onload = function(e) {
-					var data = OpltFileParser.parse(reader.result);
-					var trajectoryFile = TrajectoryFileFactory(reader.name, data, reader.size);
-					fileManager.push(trajectoryFile);
-					$scope.$emit('FileListChanged');
-				};
+					//Add Event Handler which is called when File Loading failed
+					reader.onerror = function(e) {
+						console.error(e);
+					};
 
-				reader.name = files[i].name;
-				reader.size = files[i].size;
-				reader.readAsText(files[i], 'UTF-8');
+					//Add Event Handler which is called When Complete File Loading
+					reader.onload = function(e) {
+						
+						var data = OpltFileParser.parse(reader.result);
+						if (reader.readyState !== FileReader.DONE || data.length === 0) {
+							return;
+						}
+
+						var trajectoryFile = TrajectoryFileFactory(file.name, data, file.size);
+						fileManager.push(trajectoryFile);
+						$scope.$apply();
+						$scope.$emit('FileListChanged');
+					}	
+
+					reader.readAsText(files[i], 'UTF-8');
+
+				})(files[i], reader);
+				
 			}
 
 		};
