@@ -40,7 +40,7 @@
 
 		this.push = function(element) {
 				
-			if (indexOf(element) === -1) {
+			if (indexOf(this.fileList, element) === -1) {
 				this.fileList.push(element);
 			}
 

@@ -230,6 +230,15 @@
 			marker.setPosition(position);
 		};
 
+		this.show = function(id) {
+			var marker = markerList[id];
+			if (!marker) {
+				console.log('Invalid marker ID');
+				return;
+			}
+			marker.setMap(map);
+		};
+
 		this.hide = function(id) {
 			var marker = markerList[id];
 			if (!marker) {
@@ -357,6 +366,7 @@
 					}
 
 					MarkerManager.setPosition(id, position);
+					MarkerManager.show(id);
 
 				} else {
 					MarkerManager.hide(id);

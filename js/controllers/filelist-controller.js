@@ -100,11 +100,11 @@
 
 						var trajectoryFile = TrajectoryFileFactory(file.name, data, file.size);
 						fileManager.push(trajectoryFile);
-						$scope.$apply();
 						$scope.$emit('FileListChanged');
 
 						progress += Math.ceil(file.size / totalSize * 50);
 						modal.progressBar.setProgress(progress);
+						$scope.$apply();
 					};	
 
 					reader.readAsText(files[i], 'UTF-8');

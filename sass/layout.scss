@@ -208,7 +208,7 @@ body {
 
 		#date-indicator {
 			position: relative;
-			width: 180px;
+			width: 220px;
 			height: 40px;
 			border: solid 3px $border-color;
 			float: right;
@@ -219,6 +219,7 @@ body {
 			vertical-align: middle;
 			font-size: 1.1em;
 			color: $border-color;
+			text-align: center;
 		}
 
 	}
