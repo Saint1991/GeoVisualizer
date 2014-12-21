@@ -4,11 +4,25 @@
 
 	var appModule = angular.module('geovisualizer');
 
-	appModule.controller('appController', ['$scope', function($scope) {
+	appModule.controller('appController', ['$scope', 'FileManager', function($scope, FileManager) {
+
+		var indexes;
+		var controller = this;
 
 		//This is called when Slider Value is Changed
 		$scope.$on('PlaySliderValueChanged', function(event, sliderValue) {
-			console.log('slider value:' + sliderValue);
+			
+			if (!indexes) {
+				return;
+			}
+
+			console.log(indexes[sliderValue]);
+		});
+
+		//This is called when loaded fileList is Changed
+		$scope.$on('FileListChanged', function(event) {
+			indexes = FileManager.getIndexes();
+			$scope.$broadcast('initSlider', indexes.length - 1);
 		});
 	}]);
 })();

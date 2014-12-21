@@ -22,18 +22,9 @@
 			this.latitude = latitude;
 			this.longitude = longitude;
 			this.timestamp = timestamp;
-			this.poi = poi;
+			this.poi = !poi ? 'none' : poi;
 		};
 
-		var GeoLifeDataFormatFactory = function(latitude, longitude, timestamp, poi) {
-			
-			if (!poi) {
-				poi = 'none';
-			}
-
-			return new GeoLifeDataFormat(latitude, longitude, timestamp, poi);
-		};
-
-		return GeoLifeDataFormatFactory;
+		return GeoLifeDataFormat;
 	});
 })();

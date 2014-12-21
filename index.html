@@ -12,6 +12,8 @@
 	<link rel="stylesheet" href="./css/slider.css">
 	<link rel="stylesheet" href="./css/modal.css">
 
+	
+
 	<!-- External JS Libraries and Frameworks -->
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&region=JP&key=AIzaSyDYtJlnzSgEozBhLwcBZttRzLGN07o2DDo"></script>
 	<script type="text/javascript" src="./bower_components/jquery/dist/jquery.js"></script>
@@ -46,10 +48,10 @@
 
 		<div id="user" ng-controller="userinfoController">
 			
-			<div id="user-icon"><img ng-src="{{userImageURL}}"></div>
+			<div id="user-icon"><img ng-src="{{userImageURL}}" width="100%" height="100%"></div>
 			
 			<div id="user-name-block">
-				<div id="user-name">{{username}}</div>
+				<div id="user-name" ng-bind="username">{{username}}</div>
 				<div id="logout"><a href="">Logout</a></div>
 			</div>	
 		</div>
@@ -66,7 +68,7 @@
 			</div>
 
 			<div id="file-api" >
-				<input id="file" type="file" multiple="true" name="fileList" data-file-change="filelistChanged($event, files);" accept="text/plain, text/xml, .plt">
+				<input id="file" type="file" multiple="true" name="fileList" data-file-change="filelistChanged($event, files);" accept="text/plain, text/xml, .oplt">
 				<input type="button" id="file-add-button" value="Add" >
 			</div>	
 		</div>
@@ -77,9 +79,10 @@
 <!-- my implementations -->
 <script type="text/javascript" src="./js/module.js"></script>
 <script type="text/javascript" src="./js/utils/modal.js"></script>
-<script type="text/javascript" src="./js/services/file-parser.js"></script>
-<script type="text/javascript" src="./js/models/SharedService.js"></script>
-<script type="text/javascript" src="./js/models/dataFactory/GeoLife/geoLifeDataFactory.js"></script>
+<script type="text/javascript" src="./js/models/FileManager.js"></script>
+<script type="text/javascript" src="./js/services/FileParser.js"></script>
+<script type="text/javascript" src="./js/models/dataFactory/TrajectoryFile.js"></script>
+<script type="text/javascript" src="./js/models/dataFactory/GeoLife/GeoLifeDataFormat.js"></script>
 <script type="text/javascript" src="./js/filters/filters.js"></script>
 <script type="text/javascript" src="./js/controllers/app-controller.js"></script>
 <script type="text/javascript" src="./js/controllers/map-controller.js"></script>

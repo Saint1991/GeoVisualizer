@@ -92,6 +92,12 @@
 			$scope.value = newValue;
 		};
 
+		//InitSliderEvent
+		$scope.$on('initSlider', function(event, max) {
+			$scope.max = max;
+			$scope.value = 0;
+		});
+
 		// reset Slider value
 		$scope.toZero = function() {
 			$scope.value = 0;

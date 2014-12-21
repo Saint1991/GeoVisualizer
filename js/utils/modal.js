@@ -76,8 +76,11 @@
 
 					var progressStr = progress + '%';
 
+					var $progressBar = $('#progress-bar');
+					var width = parseInt($progressBar.css('width'));
+
 					var $progressIndicator = $('#progress-indicator');
-					$progressIndicator.css('width', progressStr);
+					$progressIndicator.css('width', width * progress / 100);
 					
 					var $progressLabel = $('#progress-label');
 					$progressLabel.text(progressStr);

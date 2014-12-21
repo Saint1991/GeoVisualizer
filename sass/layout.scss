@@ -173,7 +173,7 @@ body {
 					height: 100%;
 					margin: 0px;
 					box-sizing: border-box;
-					z-index: 5;
+					z-index: 1;
 					margin-left: 6px;
 
 
@@ -227,7 +227,6 @@ body {
 				position: relative;
 				width: 80px;
 				height: 80px;
-				border: $border-style;
 			}
 
 			#user-name-block {

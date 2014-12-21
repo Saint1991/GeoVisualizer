@@ -47,61 +47,58 @@
 	}]);
 
 
-	//Definitions of Service
-	//fileListModule.value('FileReadService', function())
-
 	
+
 	//Definitions of Controller
-	var fileListController = fileListModule.controller('filelistController', ['$scope', 'modal', 'fileList', 'geoData', function($scope, modal, fileList, geoData) {
+	var fileListController = fileListModule.controller('filelistController', ['$scope', 'modal', 'FileManager', 'TrajectoryFileFactory', 'OpltFileParser', function($scope, modal, FileManager, TrajectoryFileFactory, OpltFileParser) {
 		
+		//Init FileManager Object with scope
+		var fileManager = FileManager;
+
+
 		$scope.name = 'fileListController';
 
-		//this is  a filel list loaded so far
-		$scope.fileList = fileList;	
+		//Define FileList Object
+		$scope.fileList = fileManager.fileList;
 
 		//this event listener is called when files are loaded
 		$scope.filelistChanged = function($event, files) {
 
-			var reader = new FileReader();
-
-			reader.onloadstart = function() {
-
-				modal.progressBar.start();
-
-				for (var i = 0; i < files.length; i++) {
-
-					var file = files[i];
-
-					if ( ($.inArray(file, $scope.fileList)) === -1 ) {
-						$scope.fileList.push(file);
-					}
-				}
-
-				$scope.$apply();
-			};
-
-			reader.onprogress = function(progressEvent) {
-				var progress =Math.floor(progressEvent.loaded / progressEvent.total * 100);
-				modal.progressBar.setProgress(progress);
-			};
-
-			//Add Event Handler which is called When Comlete File Loading
-			reader.onload = function() {
-				console.log(reader.result);
-			};
+			var totalSize = 0;
+			var progress = 0;
+			for (var i = 0; i < files.length; i++) {
+				totalSize += files[i].size;
+			}
 
 			//Start Loading FIles
 			for (var i = 0; i < files.length; i++) {
+
+				var reader = new FileReader();
+
+				reader.onloadstart = function() {
+					modal.progressBar.start();
+				};
+
+				reader.onprogress = function(progressEvent) {
+					progress += Math.ceil(progressEvent.loaded / totalSize * 100);
+					modal.progressBar.setProgress(progress);
+				};
+
+				//Add Event Handler which is called When Comlete File Loading
+				reader.onload = function(e) {
+					var data = OpltFileParser.parse(reader.result);
+					var trajectoryFile = TrajectoryFileFactory(reader.name, data, reader.size);
+					fileManager.push(trajectoryFile);
+					$scope.$emit('FileListChanged');
+				};
+
+				reader.name = files[i].name;
+				reader.size = files[i].size;
 				reader.readAsText(files[i], 'UTF-8');
 			}
 
 		};
 
-	}]);
-
-	//使えるか微妙
-	fileListController.controller('progressController', ['$scope', 'modal', function($scope, modal) {
-		modal.progressBar.controller($scope, modal);
 	}]);
 
 })();

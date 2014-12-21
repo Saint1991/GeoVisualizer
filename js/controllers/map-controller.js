@@ -3,10 +3,11 @@
 (function() {
 
 	var mapModule = angular.module('saint.googlemap');
-	
+	var map = null;
+
 	//Definition of  google-map Directive.
 	//To display google Map in any elements you can use this directive as an "google-map" attribute
-	mapModule.directive('googleMap', ['$compile', 'MarkerFactory', function($compile, MarkerFactory) {
+	mapModule.directive('googleMap', ['$compile', function($compile) {
 
 		var googleMapDirective = {
 
@@ -30,7 +31,7 @@
 
 				//When bindedElement Compiled, google Map is loaded in it.
 				var mapElement = bindElement[0];
-				var map = new google.maps.Map(mapElement, {
+				map = new google.maps.Map(mapElement, {
 					center: new google.maps.LatLng(center[0], center[1]),
 	                			mapTypeId: google.maps.MapTypeId.ROADMAP,
 	                			zoom: zoom
@@ -102,7 +103,6 @@
 						var linkFunction = $compile(mapInformationDiv);
 						var angularMapInformationDiv = linkFunction($scope);
 
-
 						map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(angularMapInformationDiv[0]);
 					}
 
@@ -129,7 +129,7 @@
 
 
 	//Definitions of map Components
-	mapModule.factory('MarkerFactory', [function() {
+	mapModule.factory('Marker', [function() {
 
 		var iterator = 0;
 		var colors = [
@@ -151,7 +151,7 @@
 			'DarkGreen'
 		];
 
-		var markerFactory = function(map, position, infoContents,  markerColor) {
+		var Marker = function(position, infoContents,  markerColor) {
 			
 			var color = markerColor;
 			if (!color) {
@@ -198,11 +198,6 @@
 				infoWindow.open(marker.getMap(), marker);
 			});
 
-			return marker;
-		};
-
-		var Marker = function(map, position, markerInfo, markerColor) {
-			var marker = markerFactory(map, position, markerInfo, markerColor);
 			return marker;
 		};
 
