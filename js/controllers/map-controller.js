@@ -57,7 +57,7 @@
 					if (showInfoWindow) {
 
 						var mapInformationDiv = document.createElement('div');
-						mapInformationDiv.style.width = '240px'
+						mapInformationDiv.style.width = '280px';
 						mapInformationDiv.style.height = '50px';
 						mapInformationDiv.style.border = 'solid 3px rgba(32, 255, 26, 1)';
 						mapInformationDiv.style.fontSize = '1em';

@@ -50,7 +50,7 @@
 	
 
 	//Definitions of Controller
-	var fileListController = fileListModule.controller('filelistController', ['$scope', 'modal', 'FileManager', 'TrajectoryFileFactory', 'OpltFileParser', function($scope, modal, FileManager, TrajectoryFileFactory, OpltFileParser) {
+	var fileListController = fileListModule.controller('filelistController', ['$scope', 'modal', 'FileManager', 'TrajectoryFileFactory', 'FileParser', function($scope, modal, FileManager, TrajectoryFileFactory, FileParser) {
 		
 		//Init FileManager Object with scope
 		var fileManager = FileManager;
@@ -93,8 +93,12 @@
 
 					//Add Event Handler which is called When Complete File Loading
 					reader.onload = function(e) {
+
+						//File Extension
+						var tempArray = file.name.split('.');
+						var ext = tempArray[tempArray.length - 1].toLowerCase();
 						
-						var data = OpltFileParser.parse(reader.result);
+						var data = FileParser.parse(reader.result, ext);
 
 						var trajectoryFile = TrajectoryFileFactory(file.name, data, file.size);
 						fileManager.push(trajectoryFile);
