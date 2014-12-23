@@ -44,6 +44,7 @@
 			this.name = name;
 			this.data = data;
 			this.size = size;
+			this.color = 'White';
 		};
 
 		TrajectoryFile.prototype.getData = function(timestamp) {
@@ -74,6 +75,10 @@
 			}
 
 			return true;
+		};
+
+		TrajectoryFile.prototype.setColor = function(color) {
+			this.color = color;
 		};
 
 		var TrajectoryFileFactory = function(name, data, size) {

@@ -241,7 +241,7 @@
 
 
 	//Definition of mapController
-	var mapController = mapModule.controller('mapController', ['$scope', 'MarkerManager', 'Marker', 'ColorGenerator', function($scope, MarkerManager, Marker, ColorGenerator) {
+	var mapController = mapModule.controller('mapController', ['$scope', 'MarkerManager', 'Marker', function($scope, MarkerManager, Marker) {
 		
 		//ControllerName
 		$scope.name = 'mapController';
@@ -312,13 +312,11 @@
 
 
 		//Init Markers
-		$scope.$on('initMarkers', function(event, markerNum) {
+		$scope.$on('initMarkers', function(event, markerColors) {
 			
 			MarkerManager.init();
-			ColorGenerator.init();
-			
-			for (var id = 0; id < markerNum; id++) {
-				var color = ColorGenerator.getColor()
+			for (var id = 0; id < markerColors.length; id++) {
+				var color = markerColors[id];
 				MarkerManager.add(new Marker(color));
 			}
 		});

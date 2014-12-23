@@ -63,6 +63,7 @@
 					<li ng-repeat="file in fileList" class="file-entry">
 						<div class="fileName">{{file.name}}</div>
 						<div class="fileSize">{{file.size}} Byte</div>
+						<div class="fileColorLabel" ng-style="{'background-color': '{{file.color}}'}"></div>
 					</li>
 				</ul>
 			</div>

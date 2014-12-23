@@ -4,7 +4,7 @@
 
 	var appModule = angular.module('geovisualizer');
 
-	appModule.controller('appController', ['$scope', 'FileManager', 'Marker', 'MarkerManager', function($scope, FileManager, Marker, MarkerManager) {
+	appModule.controller('appController', ['$scope', 'FileManager', 'ColorGenerator', function($scope, FileManager, ColorGenerator) {
 
 		var indexes;
 		var controller = this;
@@ -30,8 +30,15 @@
 		//This is called when loaded fileList is Changed
 		$scope.$on('FileListChanged', function(event) {
 			
+			ColorGenerator.init();
+			var markerColors = [];
 			var fileNum = FileManager.getLength();
-			$scope.$broadcast('initMarkers', fileNum);
+			for (var id = 0; id < fileNum; id++) {
+				var color = ColorGenerator.getColor();
+				FileManager.setColor(id, color);
+				markerColors.push(color);
+			}
+			$scope.$broadcast('initMarkers', markerColors);
 
 			indexes = FileManager.getIndexes();			
 			$scope.$broadcast('initSlider', indexes.length - 1);

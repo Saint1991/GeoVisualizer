@@ -38,6 +38,10 @@
 			}
 		};
 
+		this.setColor = function(id, color) {
+			this.fileList[id].setColor(color);
+		};
+
 		this.push = function(element) {
 				
 			if (indexOf(this.fileList, element) === -1) {
