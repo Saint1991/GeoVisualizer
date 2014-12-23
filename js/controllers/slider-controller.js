@@ -79,6 +79,9 @@
 		// bound to slider value
 		$scope.value = -1;
 
+		//for silider value label indicator
+		$scope.label = '';
+
 		// bound to playSpped text box
 		$scope.playSpeed = 1;
 
@@ -96,6 +99,12 @@
 		$scope.$on('initSlider', function(event, max) {
 			$scope.max = max;
 			$scope.value = 0;
+		});
+
+		//update label Indicator
+		$scope.$on('dataBroadcast', function(event, receive) {
+			var label = new Date(receive.label);
+			$scope.label = label.toLocaleString();
 		});
 
 		// reset Slider value

@@ -17,15 +17,14 @@
 
 				var center = angular.fromJson(mapAttrs.center);
 				var zoom = angular.fromJson(mapAttrs.zoom);
-				
 
 				if (!center[0] || !center[1] ||  center[0] < -90 || 90 < center[0] || center[1] < -180 || 180 < center[1]) {
-					console.err('Invalid center value');
+					console.error('Invalid center value');
 					center = [0, 0];
 				}
 
 				if (!zoom || zoom < 0) {
-					console.err('Invalid zoom value');
+					console.error('Invalid zoom value');
 					zoom = 1;
 				}
 
@@ -128,41 +127,17 @@
 	//Definitions of map Components
 	mapModule.factory('Marker', [function() {
 
-		var iterator = 0;
-		var colors = [
-			'rgba(32, 255, 26, 1)',
-			'Blue',
-			'Red',
-			'Yellow',
-			'Orange',
-			'BlueViolet',
-			'DeepPink',
-			'Aqua',
-			'Teal',
-			'Maroon',
-			'Black',
-			'Gray',
-			'White',
-			'Salmon',
-			'PeachPuff',
-			'DarkGreen'
-		];
-
-		var Marker = function(position, infoContents,  markerColor) {
+		var Marker = function(markerColor, position, infoContents) {
 			
-			var color = markerColor;
-			if (!color) {
-				color = colors[iterator++];
-				if (colors.length <= iterator) {
-					iterator = 0;
-				}
+			if (typeof(markerColor) === 'undefined') {
+				markerColor = 'Blue';
 			}
 
 			var markerOptions = {
 				map: map,
 				icon: {
 					path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-					fillColor: color,
+					fillColor: markerColor,
 					fillOpacity: 1,
 					strokeColor: 'black',
 					scale: 5,
@@ -175,7 +150,6 @@
 			}
 
 			var marker = new google.maps.Marker(markerOptions);
-			marker.id = iterator;
 			
 			//Definition of infoWindow opens when marker is clicked
 			var infoDiv = document.createElement('div');
@@ -267,7 +241,7 @@
 
 
 	//Definition of mapController
-	var mapController = mapModule.controller('mapController', ['$scope', 'MarkerManager', 'Marker', function($scope, MarkerManager, Marker) {
+	var mapController = mapModule.controller('mapController', ['$scope', 'MarkerManager', 'Marker', 'ColorGenerator', function($scope, MarkerManager, Marker, ColorGenerator) {
 		
 		//ControllerName
 		$scope.name = 'mapController';
@@ -339,9 +313,13 @@
 
 		//Init Markers
 		$scope.$on('initMarkers', function(event, markerNum) {
+			
 			MarkerManager.init();
+			ColorGenerator.init();
+			
 			for (var id = 0; id < markerNum; id++) {
-				MarkerManager.add(new Marker());
+				var color = ColorGenerator.getColor()
+				MarkerManager.add(new Marker(color));
 			}
 		});
 
@@ -356,7 +334,11 @@
 			for (var id = 0; id < data.length; id++) {
 				
 				var entry = data[id];
-				if (entry.isAlive && entry.data) {
+				if (entry.isAlive) {
+
+					if (!entry.data) {
+						continue;
+					}
 					
 					var position = new google.maps.LatLng(entry.data.latitude, entry.data.longitude);
 

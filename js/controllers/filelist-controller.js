@@ -94,17 +94,18 @@
 					reader.onload = function(e) {
 						
 						var data = OpltFileParser.parse(reader.result);
-						if (reader.readyState !== FileReader.DONE || data.length === 0) {
-							return;
-						}
 
 						var trajectoryFile = TrajectoryFileFactory(file.name, data, file.size);
 						fileManager.push(trajectoryFile);
-						$scope.$emit('FileListChanged');
-
+						
 						progress += Math.ceil(file.size / totalSize * 50);
 						modal.progressBar.setProgress(progress);
-						$scope.$apply();
+
+						if (fileManager.getLength() === files.length) {
+							$scope.$emit('FileListChanged');
+							$scope.$apply();
+						}
+
 					};	
 
 					reader.readAsText(files[i], 'UTF-8');

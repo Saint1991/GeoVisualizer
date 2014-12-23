@@ -24,7 +24,7 @@
 			}
 
 			var isFirst = sliderValue === 0;
-			$scope.$broadcast('dataBroadcast', {'data': data, 'isFirst': isFirst, 'date': key});
+			$scope.$broadcast('dataBroadcast', {'data': data, 'isFirst': isFirst, 'label': key});
 		});
 
 		//This is called when loaded fileList is Changed
