@@ -99,6 +99,7 @@
 		$scope.$on('initSlider', function(event, max) {
 			$scope.max = max;
 			$scope.value = 0;
+			$scope.$emit('PlaySliderValueChanged', $scope.value);
 		});
 
 		//update label Indicator

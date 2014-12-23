@@ -65,6 +65,7 @@
 		$scope.filelistChanged = function($event, files) {
 
 			var totalSize = 0;
+			var loadedSize = 0;
 			var progress = 0;
 			for (var i = 0; i < files.length; i++) {
 				totalSize += files[i].size;
@@ -98,10 +99,12 @@
 						var trajectoryFile = TrajectoryFileFactory(file.name, data, file.size);
 						fileManager.push(trajectoryFile);
 						
+						loadedSize += file.size;
+
 						progress += Math.ceil(file.size / totalSize * 50);
 						modal.progressBar.setProgress(progress);
 
-						if (fileManager.getLength() === files.length) {
+						if (totalSize === loadedSize) {
 							$scope.$emit('FileListChanged');
 							$scope.$apply();
 						}
