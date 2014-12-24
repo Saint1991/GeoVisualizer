@@ -241,7 +241,7 @@
 
 
 	//Definition of mapController
-	var mapController = mapModule.controller('mapController', ['$scope', 'MarkerManager', 'Marker', function($scope, MarkerManager, Marker) {
+	var mapController = mapModule.controller('mapController', ['$scope', '$timeout', 'MarkerManager', 'Marker', function($scope, $timeout, MarkerManager, Marker) {
 		
 		//ControllerName
 		$scope.name = 'mapController';
@@ -271,12 +271,16 @@
 				var longitude = center.D.toFixed(4);
 
 				$scope.center = {'latitude': latitude, 'longitude': longitude};
-				$scope.$apply();
+				$timeout(function() {
+					$scope.$apply();
+				});	
 			},
 
 			zoom_changed: function() {
 				$scope.zoom = this.getZoom();
-				$scope.$apply();
+				$timeout(function() {
+					$scope.$apply();
+				});	
 			}
 
 
