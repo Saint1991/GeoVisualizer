@@ -20,6 +20,7 @@
 	<script type="text/javascript" src="./bower_components/angular/angular.js"></script>
 	<script type="text/javascript" src="./bower_components/angular-cookies/angular-cookies.min.js"></script>
 	<script type="text/javascript" src="./bower_components/angular-uuid4/angular-uuid4.js"></script>
+
 </head>
 
 <body>
@@ -60,7 +61,7 @@
 			<div id="filelist-header">Loaded Files</div>
 			<div id="filelist" ng-model="fileList">
 				<ul>
-					<li ng-repeat="file in fileList" class="file-entry">
+					<li ng-repeat="file in fileList" class="file-entry" context-menu>
 						<div class="fileName">{{file.name}}</div>
 						<div class="fileSize">{{file.size}} Byte</div>
 						<div class="fileColorLabel" ng-style="{'background-color': '{{file.color}}'}"></div>
