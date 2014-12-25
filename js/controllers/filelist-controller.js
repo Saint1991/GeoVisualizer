@@ -10,6 +10,35 @@
 		return;
 	}
 
+	fileListModule.directive('filelist', [function() {
+
+		var filelistDirective = {
+
+			restrict: 'E',
+			scope: false,
+			templateUrl: './views/filelist.html',
+			link: function($scope, element, attr) {
+
+				if (!$scope.name || $scope.name !== 'fileListController') {
+					console.error('fileListController is not bound');
+				}
+			}
+		};
+
+		return filelistDirective;
+	}]);
+
+
+	fileListModule.directive('ng-accept', [function() {
+		
+		var ngAccept = {
+			restrict: 'A',
+			link: function($scope, element, attr) {
+
+			}
+		};
+		
+	}]);
 
 	//Definitions of Directive
 	fileListModule.directive('fileChange', ['$parse', function($parse) {
@@ -26,7 +55,7 @@
 
 				//check bound element
 				if (!element) {
-					console.error('er');
+					console.error('element not found');
 				}
 
 				var fileChange = attrs['fileChange'];

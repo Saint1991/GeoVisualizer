@@ -15,7 +15,7 @@
 			link: function($scope, element, attrs) {
 
 				if (!$scope.name || $scope.name !== 'playSliderController') {
-					throw 'playSliderController is not bound';
+					console.error('playSliderController is not bound');
 				}
 
 				var max = 100;
