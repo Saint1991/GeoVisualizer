@@ -10,7 +10,7 @@
 		return;
 	}
 
-	fileListModule.directive('filelist', [function() {
+	fileListModule.directive('fileList', [function() {
 
 		var filelistDirective = {
 
@@ -29,16 +29,50 @@
 	}]);
 
 
-	fileListModule.directive('ng-accept', [function() {
+	fileListModule.directive('ngAccept', function() {
 		
 		var ngAccept = {
 			restrict: 'A',
+			scope: false,
 			link: function($scope, element, attr) {
+				
+				if (!attr.ngAccept) {
+					return;
+				}
 
+				var accept = ''
+				var validate = /(((\.[a-z]+)|([a-z]+\/[a-z]+))(,(\s)?)?)*((\.[a-z]+)|([a-z]+\/[a-z]+))/;
+				if (validate.test(attr.ngAccept)) {
+					accept = attr.ngAccept
+				} else {
+					
+					var temp = $scope[attr.ngAccept];	
+					if ($.isArray(temp)) {
+						
+						var str = '';
+						for (var i = 0; i < temp.length; i++) {
+							str += temp[i] + ', ';
+						}
+						accept = str.substring(0, str.length - 2);
+
+					} else {
+						accept = temp;
+					}
+					
+				}
+
+				if (!validate.test(accept)) {
+					console.error('Invalid accept value');
+					return;
+				}
+
+				element.attr('accept', accept);
 			}
 		};
+
+		return ngAccept;
 		
-	}]);
+	});
 
 	//Definitions of Directive
 	fileListModule.directive('fileChange', ['$parse', function($parse) {

@@ -1,0 +1,18 @@
+<div id="filelist-header">Loaded Files</div>
+	
+<div id="filelist" ng-model="fileList">
+		
+	<ul>
+		<li ng-repeat="file in fileList" class="file-entry" context-menu>
+			<div class="fileName">{{file.name}}</div>
+			<div class="fileSize">{{file.size}} Byte</div>
+			<div class="fileColorLabel" ng-style="{'background-color': '{{file.color}}'}"></div>
+		</li>
+	</ul>
+		
+</div>
+
+<div id="file-api" >
+	<input id="file" type="file" multiple="true" name="fileList" data-file-change="filelistChanged($event, files);" ng-accept="text/plain, text/xml, .oplt, .plt">
+	<input type="button" id="file-add-button" value="Add" >
+</div>
