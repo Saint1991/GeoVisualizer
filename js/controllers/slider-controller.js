@@ -97,8 +97,9 @@
 
 		//InitSliderEvent
 		$scope.$on('initSlider', function(event, max) {
-			$scope.max = max;
+			var sliderMax = Math.max(max, 0);
 			$scope.value = 0;
+			$scope.max = sliderMax;
 			$scope.$emit('PlaySliderValueChanged', $scope.value);
 		});
 

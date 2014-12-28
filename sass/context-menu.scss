@@ -1,0 +1,16 @@
+
+@charset "UTF-8"
+
+.position-fixed {
+	position: fixed;
+}
+
+.context-filelist-entry {
+	font-size: 1.2em;
+	padding: 5px;
+	cursor: pointer;
+
+	&:hover {
+		background-color: LightBlue;
+	}
+}

@@ -59,11 +59,10 @@
 						accept = temp;
 					}
 					
-				}
-
-				if (!validate.test(accept)) {
-					console.error('Invalid accept value');
-					return;
+					if (!validate.test(accept)) {
+						console.error('Invalid accept value');
+						return;
+					}
 				}
 
 				element.attr('accept', accept);
@@ -113,7 +112,7 @@
 	
 
 	//Definitions of Controller
-	var fileListController = fileListModule.controller('filelistController', ['$scope', 'modal', 'FileManager', 'TrajectoryFileFactory', 'FileParser', function($scope, modal, FileManager, TrajectoryFileFactory, FileParser) {
+	var fileListController = fileListModule.controller('filelistController', ['$scope', 'modal', 'FileManager', 'TrajectoryFileFactory', 'FileParser', 'ContextMenuService', function($scope, modal, FileManager, TrajectoryFileFactory, FileParser, ContextMenuService) {
 		
 		//Init FileManager Object with scope
 		var fileManager = FileManager;
@@ -123,6 +122,25 @@
 
 		//Define FileList Object
 		$scope.fileList = fileManager.fileList;
+
+		$scope.removeFile = function($event) {
+			
+			var eventRoot = ContextMenuService.element;
+			var target = angular.element(eventRoot);
+			var tagName = eventRoot.tagName.toLowerCase();
+			if (tagName !== 'li') {
+				target = angular.element(target).parent();
+			}
+
+			var fileNameDiv = target.find('.fileName');
+			var fileSizeDiv = target.find('.fileSize');
+
+			var fileName = fileNameDiv.text();
+			var fileSize = parseInt(fileSizeDiv.text());
+
+			FileManager.remove(fileName, fileSize);
+			$scope.$emit('FileListChanged');
+		};
 
 		//this event listener is called when files are loaded
 		$scope.filelistChanged = function($event, files) {

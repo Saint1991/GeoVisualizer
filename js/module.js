@@ -12,10 +12,9 @@
 	]);
 
 	
-	angular.module('geovisualizer.filelist', ['saint.modal', 'geovisualizer.fileparser', 'geovisualizer.models']);
+	angular.module('geovisualizer.filelist', ['saint.modal', 'geovisualizer.fileparser', 'geovisualizer.models', 'ng-context-menu']);
 	angular.module('saint.googlemap', []);
 	angular.module('saint.playslider', []);
-	angular.module('saint.contextmenu',[]);
 
 	angular.module('saint.utils', []);
 	angular.module('saint.modal', []);

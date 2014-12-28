@@ -12,7 +12,7 @@
 		//This is called when Slider Value is Changed
 		$scope.$on('PlaySliderValueChanged', function(event, sliderValue) {
 			
-			if (!indexes || typeof(sliderValue) === 'undefined' ) {
+			if (!indexes || typeof(sliderValue) === 'undefined' || indexes.length === 0) {
 				return;
 			}
 

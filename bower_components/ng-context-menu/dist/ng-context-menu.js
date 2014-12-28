@@ -77,6 +77,10 @@ angular
               ContextMenuService.element = event.target;
               //console.log('set', ContextMenuService.element);
 
+              if (ContextMenuService.menuElement) {
+                ContextMenuService.menuElement.bind('click', handleClickEvent);
+              }
+
               event.preventDefault();
               event.stopPropagation();
               $scope.$apply(function() {
