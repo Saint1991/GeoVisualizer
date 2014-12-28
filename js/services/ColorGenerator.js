@@ -2,8 +2,8 @@
 
 (function() {
 	
-	var utilModule = angular.module('saint.utils');
-	utilModule.service('ColorGenerator', [function() {
+	var toolModule = angular.module('saint.tools');
+	toolModule.service('ColorGenerator', [function() {
 
 		var iterator = 0;
 		var colors = [

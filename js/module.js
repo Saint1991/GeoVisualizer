@@ -8,7 +8,7 @@
 		'geovisualizer.models',
 		'saint.userinfo',
 		'saint.playslider',
-		'saint.utils'
+		'saint.tools'
 	]);
 
 	
@@ -16,12 +16,12 @@
 	angular.module('saint.googlemap', []);
 	angular.module('saint.playslider', []);
 
-	angular.module('saint.utils', []);
 	angular.module('saint.modal', []);
 	angular.module('saint.userinfo', ['ngCookies']);
 	angular.module('saint.filters', []);
 	angular.module('geovisualizer.fileparser', ['geovisualizer.models']);
 	angular.module('geovisualizer.models', ['uuid4']);
 	
+	angular.module('saint.tools', []);
 	
 })();

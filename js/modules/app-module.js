@@ -7,7 +7,6 @@
 	appModule.controller('appController', ['$scope', 'FileManager', 'ColorGenerator', function($scope, FileManager, ColorGenerator) {
 
 		var indexes;
-		var controller = this;
 
 		//This is called when Slider Value is Changed
 		$scope.$on('PlaySliderValueChanged', function(event, sliderValue) {

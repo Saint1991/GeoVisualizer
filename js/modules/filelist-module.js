@@ -10,6 +10,7 @@
 		return;
 	}
 
+
 	fileListModule.directive('fileList', [function() {
 
 		var filelistDirective = {
