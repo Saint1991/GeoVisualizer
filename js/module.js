@@ -20,7 +20,7 @@
 	angular.module('saint.userinfo', ['ngCookies']);
 	angular.module('saint.filters', []);
 	angular.module('geovisualizer.fileparser', ['geovisualizer.models']);
-	angular.module('geovisualizer.models', ['uuid4']);
+	angular.module('geovisualizer.models', []);
 	
 	angular.module('saint.tools', []);
 	
