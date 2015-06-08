@@ -47,8 +47,8 @@
 
 					//Initialize the scope value
 					var center = map.getCenter();
-					var latitude = center.k.toFixed(4);
-					var longitude = center.D.toFixed(4);
+					var latitude = center.lat().toFixed(4);
+					var longitude = center.lng().toFixed(4);
 					$scope.center = {'latitude': latitude, 'longitude': longitude};
 					$scope.zoom = map.getZoom();
 
@@ -256,8 +256,8 @@
 			
 			mousemove: function(event) {
 				
-				var latitude = event.latLng.k.toFixed(4);
-				var longitude = event.latLng.D.toFixed(4);
+				var latitude = event.latLng.lat().toFixed(4);
+				var longitude = event.latLng.lng().toFixed(4);
 
 				$scope.mousePoint = {'latitude': latitude, 'longitude': longitude};
 				$scope.$apply();
@@ -267,8 +267,8 @@
 				
 				var center = this.getCenter();
 
-				var latitude = center.k.toFixed(4);
-				var longitude = center.D.toFixed(4);
+				var latitude = center.lat().toFixed(4);
+				var longitude = center.lng().toFixed(4);
 
 				$scope.center = {'latitude': latitude, 'longitude': longitude};
 				$timeout(function() {
