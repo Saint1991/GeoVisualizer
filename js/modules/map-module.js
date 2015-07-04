@@ -57,7 +57,7 @@
 					if (showInfoWindow) {
 
 						var mapInformationDiv = document.createElement('div');
-						mapInformationDiv.style.width = '280px';
+						mapInformationDiv.style.width = '300px';
 						mapInformationDiv.style.height = '50px';
 						mapInformationDiv.style.border = 'solid 3px rgba(32, 255, 26, 1)';
 						mapInformationDiv.style.fontSize = '1em';
@@ -207,10 +207,18 @@
 		this.show = function(id) {
 			var marker = markerList[id];
 			if (!marker) {
-				console.log('Invalid marker ID');
+				console.error('Invalid marker ID');
 				return;
 			}
 			marker.setMap(map);
+		};
+
+		this.showWithPoiInfo = function(id, venue_name, category_name) {
+			var marker = markerList[id];
+			if (!marker) {
+				console.error('Invalid Marker ID');
+				return;
+			}
 		};
 
 		this.hide = function(id) {

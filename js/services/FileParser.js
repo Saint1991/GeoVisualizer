@@ -4,7 +4,7 @@
 
 	var fileParseModule = angular.module('geovisualizer.fileparser');
 
-	fileParseModule.service('FileParser', ['GeoLifeDataFormat', function(GeoLifeDataFormat) {
+	fileParseModule.service('FileParser', ['GeoLifeDataFormat', 'SemanticTrajectoryDataFormat', function(GeoLifeDataFormat, SemanticTrajectoryDataFormat) {
 
 		var parser = {
 			
@@ -85,7 +85,51 @@
 				}
 				
 				return retData;
+			},
+
+			'st': function(textContent) {
+
+				var retData = [];
+
+				var lines = textContent.split('\n');
+				for (var i = 0; i < lines.length; i++) {
+					
+					var lineArray = lines[i].split(',');
+					if (lineArray.length !== 7) {
+						continue;
+					}
+
+					var latitude = parseFloat(lineArray[0]);
+					if (latitude !== latitude) {
+						console.error('latitude is not a number');
+						continue;
+					}
+
+					var longitude = parseFloat(lineArray[1]);
+					if (longitude !== longitude) {
+						console.error('longitude is not a number');
+						continue;
+					}
+
+					var timestampStr = lineArray[2];
+					var timestamp = new Date(timestampStr);
+					if (!timestamp) {
+						console.error('Invalid timestamp');
+						continue;
+					}
+
+					var venue_name = lineArray[3];
+					var category_name = lineArray[4];
+
+					var entry = new SemanticTrajectoryDataFormat(latitude, longitude, timestamp, venue_name, category_name);
+
+					retData.push(entry);
+				}
+				
+				return retData;
 			}
+
+
 		};
 
 		this.parse = function(textContent, ext) {
