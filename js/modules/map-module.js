@@ -149,34 +149,41 @@
 				markerOptions.position = position;
 			}
 
-			var marker = new google.maps.Marker(markerOptions);
+			return new google.maps.Marker(markerOptions);
+		};
+
+		return Marker;
+	}]);
+
+	mapModule.factory('SimpleInfoWindow', [function(){
+		
+		var SimpleInfoWindow = function(hashInfo) {
 			
-			//Definition of infoWindow opens when marker is clicked
-			var infoDiv = document.createElement('div');
-			if (typeof(infoContents) === 'string') {
-				infoDiv.textContent = infoContents;
-			} else if (infoContents instanceof Node) {
-				infoDiv.appendChild(infoContents);
+			if (!(hashInfo instanceof Object)) {
+				return null;
 			}
+
+			var infoMessage = '';
+			for (var key in hashInfo) {
+				infoMessage += key + ': ' + hashInfo[key] + "<br>";
+			}
+
+			var infoDiv = document.createElement('div');
+			infoDiv.textContent = infoMessage;
+
 			var infoWindow = new google.maps.InfoWindow({
 				maxWidth: 300,
 				pixelOffset: new google.maps.Size(0, 5),
 				content: infoDiv
 			});
 
-
-			google.maps.event.addListener(marker, 'click', function() {
-				infoWindow.open(marker.getMap(), marker);
-			});
-
-			return marker;
-		};
-
-		return Marker;
+			return infoWindow;
+		}
+		return SimpleInfoWindow;	
 	}]);
 
 	//Definition of MarkerManager which manages markers
-	mapModule.service('MarkerManager', [function() {
+	mapModule.service('MarkerManager', ['SimpleInfoWindow', function(SimpleInfoWindow) {
 
 		var markerList = [];
 
@@ -213,11 +220,13 @@
 			marker.setMap(map);
 		};
 
-		this.showWithPoiInfo = function(id, venue_name, category_name) {
+		this.showWithSimpleInfoWindow = function(id, hashInfo) {
+			
 			var marker = markerList[id];
-			if (!marker) {
-				console.error('Invalid Marker ID');
-				return;
+
+			var infoWindow = new SimpleInfoWindow(hashInfo);
+			if (infoWindow) {
+				infoWindow.open(marker.getMap(), marker);
 			}
 		};
 
@@ -290,8 +299,6 @@
 					$scope.$apply();
 				});	
 			}
-
-
 		};
 
 
@@ -358,7 +365,16 @@
 					}
 
 					MarkerManager.setPosition(id, position);
-					MarkerManager.show(id);
+
+					if (entry.data instanceof SemanticTrajectoryDataFormat) {
+						var hashInfo = {
+							'category': entry.data.categoryName,
+							'name': entry.data.venueName
+						};
+						MarkerManager.showWithSimpleInfoWindow(hashInfo);
+					} else {
+						MarkerManager.show(id);
+					}
 
 				} else {
 					MarkerManager.hide(id);

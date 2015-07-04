@@ -6,7 +6,7 @@
 	var modelModule = angular.module('geovisualizer.models');
 	modelModule.factory('SemanticTrajectoryDataFormat', function() {
 
-		var SemanticTrajectoryDataFormat = function(latitude, longitude, timestamp, venue_name, category_name) {
+		var SemanticTrajectoryDataFormat = function(latitude, longitude, timestamp, venueName, categoryName) {
 			
 			if (typeof(latitude) !== 'number'  || typeof(longitude) !== 'number') {
 				throw 'Invalid LatLng property';
@@ -16,12 +16,12 @@
 				throw 'timestamp is not instance of Date';
 			}
 
-			if (typeof(venu_name) !== 'string') {
-				throw 'venue_name is not string';
+			if (typeof(venuName) !== 'string') {
+				throw 'venueName is not string';
 			}
 
-			if (typeof(category_name) !== 'string') {
-				throw 'category_name is not string';
+			if (typeof(categoryName) !== 'string') {
+				throw 'categoryName is not string';
 			}
 
 			console.assert(-90 <= latitude && latitude <= 90, 'latitude is not within [-90, 90]');
@@ -30,8 +30,8 @@
 			this.latitude = latitude;
 			this.longitude = longitude;
 			this.timestamp = timestamp;
-			this.venue_name = venue_name;
-			this.category_name = category_name;
+			this.venueName = venueName;
+			this.categoryName = categoryName;
 		};
 	});
 })();
