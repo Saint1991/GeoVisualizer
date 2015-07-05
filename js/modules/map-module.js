@@ -181,8 +181,10 @@
 				content: infoDiv
 			});
 
+
 			return infoWindow;
 		};
+
 		return SimpleInfoWindow;	
 	}]);
 
@@ -434,6 +436,11 @@
 							};
 							MarkerManager.setSimpleInfoWindow(id, hashInfo);
 							MarkerManager.addEventListener(id, 'setPosition', function(marker) {
+								google.maps.event.addListener(marker, 'click', function() {
+									if (marker.infoWindow) {
+										marker.infoWindow.open(marker.getMap(), marker);
+									}
+								});
 								marker.infoWindow.open(marker.getMap(), marker);
 							});
 							MarkerManager.setPosition(id, position);
