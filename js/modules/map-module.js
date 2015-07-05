@@ -127,7 +127,7 @@
 	//Definitions of map Components
 	mapModule.factory('Marker', [function() {
 
-		var Marker = function(markerColor, position, infoContents) {
+		var Marker = function(markerColor, position) {
 			
 			if (typeof(markerColor) === 'undefined') {
 				markerColor = 'Blue';
@@ -149,7 +149,10 @@
 				markerOptions.position = position;
 			}
 
-			return new google.maps.Marker(markerOptions);
+			var marker = new google.maps.Marker(markerOptions);
+			marker.eventList = {};
+			marker.infoWindow = null;
+			return marker;
 		};
 
 		return Marker;
@@ -163,13 +166,14 @@
 				return null;
 			}
 
-			var infoMessage = '';
-			for (var key in hashInfo) {
-				infoMessage += key + ': ' + hashInfo[key] + "<br>";
-			}
-
 			var infoDiv = document.createElement('div');
-			infoDiv.textContent = infoMessage;
+			infoDiv.style.width = '230px';
+			for (var key in hashInfo) {
+				var lineDiv = document.createElement('div');
+				lineDiv.style.textAlign = 'left';
+				lineDiv.textContent = key + ': ' + hashInfo[key];
+				infoDiv.appendChild(lineDiv);
+			}
 
 			var infoWindow = new google.maps.InfoWindow({
 				maxWidth: 300,
@@ -178,7 +182,7 @@
 			});
 
 			return infoWindow;
-		}
+		};
 		return SimpleInfoWindow;	
 	}]);
 
@@ -195,8 +199,40 @@
 			markerList = [];
 		};
 
+		this.addEventListener = function(id, eventName, callback) {
+			var marker = markerList[id];
+			if (!marker) {
+				console.error('Invalid Marker ID');
+				return;
+			}
+			marker.eventList[eventName] = callback;
+		};
+
+		this.removeEventListener = function(id, eventName) {
+			var marker = markerList[id];
+			if (!marker) {
+				console.error('Invalid Marker ID');
+				return;
+			}
+
+			if (typeof(eventName) === 'string' && eventName in marker.eventList) {
+				delete marker.eventList[eventName];
+			}
+		};
+
+		this.clearEventListeners = function(id) {
+			var marker = markerList[id];
+			if (!marker) {
+				console.error('Invalid Marker ID');
+				return;
+			}
+			marker.eventList = [];
+		};
+
 		this.setPosition = function(id, position) {
 			
+			var methodName =  'setPosition';
+
 			var marker = markerList[id];
 			if (!marker) {
 				console.log('Invalid Marker ID');
@@ -209,39 +245,62 @@
 			}
 
 			marker.setPosition(position);
+			if (methodName in marker.eventList) {
+				marker.eventList[methodName](marker);
+			}
 		};
+
+		
 
 		this.show = function(id) {
+
+			var methodName = 'show';
+
 			var marker = markerList[id];
 			if (!marker) {
-				console.error('Invalid marker ID');
+				console.error('Invalid Marker ID');
 				return;
 			}
+
 			marker.setMap(map);
+			if (methodName in marker.eventList) {
+				marker.eventList[methodName](marker);
+			}
 		};
 
-		this.showWithSimpleInfoWindow = function(id, hashInfo) {
-			
-			var marker = markerList[id];
+		this.setSimpleInfoWindow = function(id, hashInfo) {
 
-			var infoWindow = new SimpleInfoWindow(hashInfo);
-			if (infoWindow) {
-				infoWindow.open(marker.getMap(), marker);
+			var marker = markerList[id];
+			if (!marker) {
+				console.error('Invalid Marker ID');
+				return;
 			}
+
+			if (marker.infoWindow) {
+				marker.infoWindow.close();
+			}
+
+			marker.infoWindow = new SimpleInfoWindow(hashInfo);
 		};
 
 		this.hide = function(id) {
 			var marker = markerList[id];
 			if (!marker) {
-				console.log('Invalid marker ID');
+				console.error('Invalid marker ID');
 				return;
 			}
 			marker.setMap(null);
 		};
 
 		this.remove = function(id) {
-			this.hide(id);
+			var marker = markerList[id];
+			if (!marker) {
+				console.error('Invalid marker ID');
+				return;
+			}
+			marker.eventList = [];
 			markerList.splice(id, 1);
+			marker.setMap(null);
 		};
 
 		this.add = function(marker) {
@@ -254,8 +313,6 @@
 		};
 
 	}]);
-
-
 
 	//Definition of mapController
 	var mapController = mapModule.controller('mapController', ['$scope', '$timeout', 'MarkerManager', 'Marker', function($scope, $timeout, MarkerManager, Marker) {
@@ -290,14 +347,14 @@
 				$scope.center = {'latitude': latitude, 'longitude': longitude};
 				$timeout(function() {
 					$scope.$apply();
-				});	
+				});
 			},
 
 			zoom_changed: function() {
 				$scope.zoom = this.getZoom();
 				$timeout(function() {
 					$scope.$apply();
-				});	
+				});
 			}
 		};
 
@@ -364,16 +421,29 @@
 						zoomTo(16);
 					}
 
-					MarkerManager.setPosition(id, position);
+					switch (entry.type) {
+						case 'plt':
+						case 'oplt':
+							MarkerManager.setPosition(id, position);
+							MarkerManager.show(id);
+							break;
+						case 'st':
+							var hashInfo = {
+								'category': entry.data.categoryName,
+								'name': entry.data.venueName
+							};
+							MarkerManager.setSimpleInfoWindow(id, hashInfo);
+							MarkerManager.addEventListener(id, 'setPosition', function(marker) {
+								marker.infoWindow.open(marker.getMap(), marker);
+							});
+							MarkerManager.setPosition(id, position);
+							MarkerManager.show(id);
+							break;
 
-					if (entry.data instanceof SemanticTrajectoryDataFormat) {
-						var hashInfo = {
-							'category': entry.data.categoryName,
-							'name': entry.data.venueName
-						};
-						MarkerManager.showWithSimpleInfoWindow(hashInfo);
-					} else {
-						MarkerManager.show(id);
+						default:
+							MarkerManager.setPosition(id, position);
+							MarkerManager.show(id);
+							break;
 					}
 
 				} else {
@@ -382,9 +452,6 @@
 			}
 
 		});
-
-
-
 
 		//mouse point for information
 		$scope.mousePoint = {'latitude': 0, 'longitude': 0};

@@ -95,7 +95,7 @@
 				for (var i = 0; i < lines.length; i++) {
 					
 					var lineArray = lines[i].split(',');
-					if (lineArray.length !== 7) {
+					if (lineArray.length !== 5) {
 						continue;
 					}
 

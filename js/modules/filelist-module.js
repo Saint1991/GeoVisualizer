@@ -41,7 +41,7 @@
 					return;
 				}
 
-				var accept = ''
+				var accept = '';
 				var validate = /(((\.[a-z]+)|([a-z]+\/[a-z]+))(,(\s)?)?)*((\.[a-z]+)|([a-z]+\/[a-z]+))/;
 				if (validate.test(attr.ngAccept)) {
 					accept = attr.ngAccept

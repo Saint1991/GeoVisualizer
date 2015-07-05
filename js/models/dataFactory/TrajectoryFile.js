@@ -77,6 +77,17 @@
 			return true;
 		};
 
+		TrajectoryFile.prototype.getType = function() {
+			var retType = 'plt';
+			if (typeof(this.name) === 'string') {
+				var tempArray = this.name.split('.');
+				if (tempArray.length > 1) {
+					retType = tempArray[tempArray.length - 1];
+				}
+			}
+			return retType;
+		};
+
 		TrajectoryFile.prototype.setColor = function(color) {
 			this.color = color;
 		};

@@ -16,7 +16,7 @@
 				throw 'timestamp is not instance of Date';
 			}
 
-			if (typeof(venuName) !== 'string') {
+			if (typeof(venueName) !== 'string') {
 				throw 'venueName is not string';
 			}
 
@@ -33,5 +33,7 @@
 			this.venueName = venueName;
 			this.categoryName = categoryName;
 		};
+
+		return SemanticTrajectoryDataFormat;
 	});
 })();

@@ -86,7 +86,8 @@
 				var file = this.fileList[i];
 				var isAlive = file.isWithin(timestamp);
 				var data = file.getData(timestamp);
-				retData.push({'isAlive': isAlive, 'data': data});
+				var type = file.getType();
+				retData.push({'isAlive': isAlive, 'data': data, 'type': type});
 			}
 
 			return retData;
