@@ -32,7 +32,7 @@
 						continue;
 					}
 
-					var timestamp = new Date(lineArray[2]);
+					var timestamp = new Date(lineArray[2].replace(/-/g, '/'));
 					if (!timestamp) {
 						console.error('invalid timestamp');
 						continue;
@@ -72,7 +72,7 @@
 					}
 
 					var timestampStr = lineArray[5] + ' ' + lineArray[6];
-					var timestamp = new Date(timestampStr);
+					var timestamp = new Date(timestampStr.replace(/-/g, '/'));
 					if (!timestamp) {
 						console.error('Invalid timestamp');
 						continue;
@@ -112,7 +112,7 @@
 					}
 
 					var timestampStr = lineArray[2];
-					var timestamp = new Date(timestampStr);
+					var timestamp = new Date(timestampStr.replace(/-/g, '/'));
 					if (!timestamp) {
 						console.error('Invalid timestamp');
 						continue;

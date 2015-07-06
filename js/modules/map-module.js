@@ -181,7 +181,6 @@
 				content: infoDiv
 			});
 
-
 			return infoWindow;
 		};
 
@@ -201,7 +200,7 @@
 			markerList = [];
 		};
 
-		this.addEventListener = function(id, eventName, callback) {
+		this.setEventListener = function(id, eventName, callback) {
 			var marker = markerList[id];
 			if (!marker) {
 				console.error('Invalid Marker ID');
@@ -248,8 +247,10 @@
 
 			marker.setPosition(position);
 			if (methodName in marker.eventList) {
-				marker.eventList[methodName](marker);
+				var callback = marker.eventList[methodName];
+				callback(marker);
 			}
+			
 		};
 
 		
@@ -279,7 +280,9 @@
 			}
 
 			if (marker.infoWindow) {
+				marker.infoWindow.open();
 				marker.infoWindow.close();
+				marker.infoWindow = null;
 			}
 
 			marker.infoWindow = new SimpleInfoWindow(hashInfo);
@@ -435,13 +438,13 @@
 								'name': entry.data.venueName
 							};
 							MarkerManager.setSimpleInfoWindow(id, hashInfo);
-							MarkerManager.addEventListener(id, 'setPosition', function(marker) {
-								google.maps.event.addListener(marker, 'click', function() {
-									if (marker.infoWindow) {
+							MarkerManager.setEventListener(id, 'setPosition', function(marker) {
+								if (marker.infoWindow) {
+									google.maps.event.addListener(marker, 'click', function() {
 										marker.infoWindow.open(marker.getMap(), marker);
-									}
-								});
-								marker.infoWindow.open(marker.getMap(), marker);
+									});
+									marker.infoWindow.open(marker.getMap(), marker);
+								}
 							});
 							MarkerManager.setPosition(id, position);
 							MarkerManager.show(id);
