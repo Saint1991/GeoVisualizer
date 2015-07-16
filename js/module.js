@@ -8,13 +8,15 @@
 		'geovisualizer.models',
 		'saint.userinfo',
 		'saint.playslider',
-		'saint.tools'
+		'saint.tools',
+		'saint.tabview'
 	]);
 
 	
 	angular.module('geovisualizer.filelist', ['saint.modal', 'geovisualizer.fileparser', 'geovisualizer.models', 'ng-context-menu']);
 	angular.module('saint.googlemap', []);
 	angular.module('saint.playslider', []);
+	angular.module('saint.tabview', []);
 
 	angular.module('saint.modal', []);
 	angular.module('saint.userinfo', ['ngCookies']);

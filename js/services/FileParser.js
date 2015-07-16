@@ -127,9 +127,15 @@
 				}
 				
 				return retData;
+			},
+
+			'node': function(textContent) {
+
+			},
+
+			'way': function(textContent) {
+
 			}
-
-
 		};
 
 		this.parse = function(textContent, ext) {

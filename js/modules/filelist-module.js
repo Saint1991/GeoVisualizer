@@ -11,7 +11,7 @@
 	}
 
 
-	fileListModule.directive('fileList', [function() {
+	fileListModule.directive('trajectoryFileList', [function() {
 
 		var filelistDirective = {
 

@@ -4,7 +4,7 @@
 $border-color: rgba(32, 255, 26, 1);
 $border-style: solid 1px $border-color;
 
-#filelist-header {
+.filelist-header {
 	position: relative;
 	width: 100%;
 	height: 35px;
@@ -17,7 +17,7 @@ $border-style: solid 1px $border-color;
 	background-color: $border-color;
 }
 
-#filelist {
+.filelist {
 	position: relative;
 	height: 740px;
 	overflow: auto;
@@ -56,7 +56,7 @@ $border-style: solid 1px $border-color;
 	}
 }
 			
-#file-api {
+.file-api {
 				
 	position: relative;
 	float: right;
@@ -64,7 +64,7 @@ $border-style: solid 1px $border-color;
 	height: 25px;
 	cursor: pointer;
 
-	#file {
+	.file {
 		position: absolute;
 		width: 100%;
 		height: 100%;
@@ -78,7 +78,7 @@ $border-style: solid 1px $border-color;
 					
 	}
 
-	#file-add-button {
+	.file-add-button {
 		position: relative;
 		width: 100%;
 		height: 100%;
