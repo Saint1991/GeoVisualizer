@@ -9,7 +9,7 @@
 		'saint.userinfo',
 		'saint.playslider',
 		'saint.tools',
-		'saint.tabview'
+		'ui.bootstrap'
 	]);
 
 	

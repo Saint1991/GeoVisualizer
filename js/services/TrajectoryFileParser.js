@@ -4,7 +4,7 @@
 
 	var fileParseModule = angular.module('geovisualizer.fileparser');
 
-	fileParseModule.service('FileParser', ['GeoLifeDataFormat', 'SemanticTrajectoryDataFormat', function(GeoLifeDataFormat, SemanticTrajectoryDataFormat) {
+	fileParseModule.service('TrajectoryFileParser', ['GeoLifeDataFormat', 'SemanticTrajectoryDataFormat', function(GeoLifeDataFormat, SemanticTrajectoryDataFormat) {
 
 		var parser = {
 			
@@ -21,25 +21,10 @@
 					}
 
 					var latitude = parseFloat(lineArray[0]);
-					if (latitude !== latitude) {
-						console.error('latitude is not a number');
-						continue;
-					}
-
 					var longitude = parseFloat(lineArray[1]);
-					if (longitude !== longitude) {
-						console.error('longitude is not a number');
-						continue;
-					}
-
 					var timestamp = new Date(lineArray[2].replace(/-/g, '/'));
-					if (!timestamp) {
-						console.error('invalid timestamp');
-						continue;
-					}
 
 					var poi = lineArray[3];
-
 					var entry = new GeoLifeDataFormat(latitude, longitude, timestamp, poi);
 					retData.push(entry);
 				}
@@ -60,24 +45,9 @@
 					}
 
 					var latitude = parseFloat(lineArray[0]);
-					if (latitude !== latitude) {
-						console.error('latitude is not a number');
-						continue;
-					}
-
 					var longitude = parseFloat(lineArray[1]);
-					if (longitude !== longitude) {
-						console.error('longitude is not a number');
-						continue;
-					}
-
 					var timestampStr = lineArray[5] + ' ' + lineArray[6];
 					var timestamp = new Date(timestampStr.replace(/-/g, '/'));
-					if (!timestamp) {
-						console.error('Invalid timestamp');
-						continue;
-					}
-
 					var poi = 'none';
 
 					var entry = new GeoLifeDataFormat(latitude, longitude, timestamp, poi);
@@ -100,44 +70,17 @@
 					}
 
 					var latitude = parseFloat(lineArray[0]);
-					if (latitude !== latitude) {
-						console.error('latitude is not a number');
-						continue;
-					}
-
 					var longitude = parseFloat(lineArray[1]);
-					if (longitude !== longitude) {
-						console.error('longitude is not a number');
-						continue;
-					}
-
 					var timestampStr = lineArray[2];
 					var timestamp = new Date(timestampStr.replace(/-/g, '/'));
-					if (!timestamp) {
-						console.error('Invalid timestamp');
-						continue;
-					}
-
 					var venue_name = lineArray[3];
 					var category_name = lineArray[4];
-
 					var entry = new SemanticTrajectoryDataFormat(latitude, longitude, timestamp, venue_name, category_name);
 
 					retData.push(entry);
 				}
 				
 				return retData;
-			},
-
-			'node': function(textContent) {
-				
-				var retData = [];
-				lines = textContent.split('\n');
-			},
-
-			'way': function(textContent) {
-				var retData = [];
-				lines = textContent.split('\n');
 			}
 		};
 

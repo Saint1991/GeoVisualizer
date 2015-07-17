@@ -31,7 +31,9 @@
 				return;
 			} else if (typeof(target) === 'string' && size) {
 				var index = indexOf(this.fileList, {'name': target, 'size': size});
-				this.fileList.splice(index, 1);
+				if (index !== -1) {
+					this.fileList.splice(index, 1);
+				}
 			}
 		};
 

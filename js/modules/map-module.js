@@ -11,7 +11,7 @@
 
 		var googleMapDirective = {
 
-			restrict: 'E',
+			restrict: 'A',
 			scope: {
 				center: '@center',
 				zoom: '&zoom',
@@ -109,9 +109,7 @@
 				$scope.$on('dataBroadcast', function(event, receive) {
 					
 					var data = receive.data;
-					if (!data) {
-						console.log('data is empty');
-					}
+					console.assert(data, 'data is empty');
 
 					for (var id = 0; id < data.length; id++) {
 						
@@ -178,6 +176,8 @@
 				
 				//When bindedElement Compiled, google Map is loaded in it.
 				var mapElement = bindElement[0];
+				mapElement.style.width = '100%';
+				mapElement.style.height = '100%';
 				map = new google.maps.Map(mapElement, {
 					center: new google.maps.LatLng(center[0], center[1]),
 	                			mapTypeId: google.maps.MapTypeId.ROADMAP,

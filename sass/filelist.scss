@@ -4,6 +4,24 @@
 $border-color: rgba(32, 255, 26, 1);
 $border-style: solid 1px $border-color;
 
+#file-list-box {
+	ul.nav {
+		li.active {
+			border-bottom: solid #EEE 1px;
+			a {
+				color: Black;
+			}
+		}
+
+		li {
+			background-color: $border-color;
+			a {
+				color: Snow;
+			}
+		}
+	}
+}
+
 .filelist-header {
 	position: relative;
 	width: 100%;
@@ -61,7 +79,7 @@ $border-style: solid 1px $border-color;
 	position: relative;
 	float: right;
 	width: 40%;
-	height: 25px;
+	height: 35px;
 	cursor: pointer;
 
 	.file {

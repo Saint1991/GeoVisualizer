@@ -4,7 +4,7 @@
 
 	var appModule = angular.module('geovisualizer');
 
-	appModule.controller('appController', ['$scope', 'TrajectoryFileManager', 'ColorGenerator', function($scope, TrajectoryFileManager, ColorGenerator) {
+	appModule.controller('appController', ['$scope', 'TrajectoryFileManager', 'MapFileManager', 'ColorGenerator', function($scope, TrajectoryFileManager, MapFileManager, ColorGenerator) {
 
 		var indexes;
 
@@ -23,7 +23,7 @@
 		});
 
 		//This is called when loaded fileList is Changed
-		$scope.$on('FileListChanged', function(event) {
+		$scope.$on('TrajectoryFileListChanged', function(event) {
 			
 			ColorGenerator.init();
 			var markerColors = [];
@@ -37,6 +37,15 @@
 
 			indexes = TrajectoryFileManager.getIndexes();			
 			$scope.$broadcast('initSlider', indexes.length - 1);
+		});
+
+		$scope.$on('MapFileListChanged', function(event) {
+			
+			MapFileManager.fileList.forEach(function(mapFile) {
+				var temp = mapFile.name.split('.');
+				var type = temp[temp.length - 1];
+				$scope.$broadcast('showMapComponent', {'data': mapFile.data, 'type': type});
+			});
 		});
 	}]);
 })();

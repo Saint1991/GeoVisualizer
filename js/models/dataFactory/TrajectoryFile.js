@@ -3,7 +3,7 @@
 (function() {
 
 	var modelModule = angular.module('geovisualizer.models');
-	modelModule.factory('TrajectoryFileFactory', [function() {
+	modelModule.factory('TrajectoryFile', [function() {
 
 		var find = function(sortedArray, search) {
 
@@ -92,11 +92,7 @@
 			this.color = color;
 		};
 
-		var TrajectoryFileFactory = function(name, data, size) {
-			return new TrajectoryFile(name, data, size);
-		};
-
-		return TrajectoryFileFactory;
+		return TrajectoryFile;
 	}]);
 
 })();

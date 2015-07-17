@@ -1,1 +1,98 @@
-.filelist-header{position:relative;width:100%;height:35px;line-height:25px;padding:5px;text-align:center;vertical-align:middle;color:Snow;font-size:1.2em;background-color:#20ff1a}.filelist{position:relative;height:740px;overflow:auto;border-bottom:solid 1px #20ff1a}.filelist .file-entry{padding:10px;border-bottom:solid 1px #20ff1a}.filelist .file-entry:hover{background-color:Yellow}.filelist .file-entry .fileName{font-weight:0.8;margin:5px}.filelist .file-entry .fileSize{width:40%;overflow:hidden;font-weight:0.8;font-size:0.9em;color:#828282;margin-left:5px}.filelist .file-entry .fileColorLabel{position:relative;width:20px;height:20px;float:right;margin-top:-30px}.file-api{position:relative;float:right;width:40%;height:25px;cursor:pointer}.file-api .file{position:absolute;width:100%;height:100%;opacity:0;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);z-index:2;top:0px;right:0px;margin:0px;cursor:pointer}.file-api .file-add-button{position:relative;width:100%;height:100%;margin:0px;border:none;background:#20ff1a;color:Snow;font-size:1.05em}
+#file-list-box ul.nav li.active {
+  border-bottom: solid #EEE 1px;
+}
+
+#file-list-box ul.nav li.active a {
+  color: Black;
+}
+
+#file-list-box ul.nav li {
+  background-color: #20ff1a;
+}
+
+#file-list-box ul.nav li a {
+  color: Snow;
+}
+
+.filelist-header {
+  position: relative;
+  width: 100%;
+  height: 35px;
+  line-height: 25px;
+  padding: 5px;
+  text-align: center;
+  vertical-align: middle;
+  color: Snow;
+  font-size: 1.2em;
+  background-color: #20ff1a;
+}
+
+.filelist {
+  position: relative;
+  height: 740px;
+  overflow: auto;
+  border-bottom: solid 1px #20ff1a;
+}
+
+.filelist .file-entry {
+  padding: 10px;
+  border-bottom: solid 1px #20ff1a;
+}
+
+.filelist .file-entry:hover {
+  background-color: Yellow;
+}
+
+.filelist .file-entry .fileName {
+  font-weight: 0.8;
+  margin: 5px;
+}
+
+.filelist .file-entry .fileSize {
+  width: 40%;
+  overflow: hidden;
+  font-weight: 0.8;
+  font-size: 0.9em;
+  color: #828282;
+  margin-left: 5px;
+}
+
+.filelist .file-entry .fileColorLabel {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  float: right;
+  margin-top: -30px;
+}
+
+.file-api {
+  position: relative;
+  float: right;
+  width: 40%;
+  height: 35px;
+  cursor: pointer;
+}
+
+.file-api .file {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+  z-index: 2;
+  top: 0px;
+  right: 0px;
+  margin: 0px;
+  cursor: pointer;
+}
+
+.file-api .file-add-button {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  border: none;
+  background: #20ff1a;
+  color: Snow;
+  font-size: 1.05em;
+}

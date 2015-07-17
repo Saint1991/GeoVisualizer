@@ -1,0 +1,22 @@
+<div class="filelist" ng-model="fileList">
+		
+	<ul>
+		<li ng-repeat="file in fileList" class="file-entry" context-menu data-target="context-filelist">
+			<div class="fileName">{{file.name}}</div>
+			<div class="fileSize">{{file.size}} Byte</div>
+			<input type="checkbox" ng-model="file.isAlive" class="fileColorLabel">
+		</li>
+	</ul>
+		
+</div>
+
+<div class="file-api" >
+	<input class="file" type="file" multiple="true" name="fileList" data-trajectory-file-change>
+	<input type="button" class="file-add-button" value="Add" >
+</div>
+
+<div class="dropdown position-fixed" id="context-filelist">
+	<ul class="dropdown-menu">
+		<li class="context-filelist-entry" ng-click="removeFile($event)">Remove</li>
+	</ul>
+</div>

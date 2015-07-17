@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="./css/slider.css">
 	<link rel="stylesheet" href="./css/modal.css">
 	<link rel="stylesheet" href="./css/filelist.css">
+	<link rel="stylesheet" href="./css/map.css">
 	<link rel="stylesheet" href="./css/context-menu.css">
 
 
@@ -24,6 +25,7 @@
 	<script type="text/javascript" src="./bower_components/angular/angular.js"></script>
 	<script type="text/javascript" src="./bower_components/angular-cookies/angular-cookies.min.js"></script>
 	<script type="text/javascript" src="./bower_components/ng-context-menu/dist/ng-context-menu.js"></script>
+	<script type="text/javascript" src="./bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 
 
 </head>
@@ -40,8 +42,10 @@
 	<!-- 中央のMapView -->
 	<div id="map" >
 		
-		<google-map id="google-map" ng-controller="mapController" center="[35.6600, 139.7022]" zoom="15" show-map-info="true"/>
-		
+		<div id="google-map-wrapper" ng-controller="mapController">
+			<div google-map id="google-map" center="[35.6600, 139.7022]" zoom="15" show-map-info="true"><</div>
+		</div>
+
 		<div id="slider-box" ng-controller="playSliderController">
 			<play-slider/>
 		</div>
@@ -60,9 +64,19 @@
 				<div id="logout"><a href="">Logout</a></div>
 			</div>	
 		</div>
+		
+		<div id="file-list-box">
+			<tabset justified="true" >
 
-		<div id="file-list-box" ng-controller="filelistController">
-			<trajectory-file-list accept="text/plain, text/xml, .oplt, .plt, .st, .node, .way"></trajectory-file-list>
+				<tab heading="Trajectories" ng-controller="filelistController">
+					<trajectory-file-list accept="text/plain, text/xml, .oplt, .plt, .st, .node, .way"/>					
+				</tab>
+
+				<tab heading="Nodes/Ways" ng-controller="filelistController">
+					<map-file-list accept=".node, .way"/>
+				</tab>
+
+			</tabset>
 		</div>
 	</div>	
 
@@ -72,11 +86,15 @@
 <script type="text/javascript" src="./js/module.js"></script>
 
 <script type="text/javascript" src="./js/models/TrajectoryFileManager.js"></script>
+<script type="text/javascript" src="./js/models/MapFileManager.js"></script>
 <script type="text/javascript" src="./js/models/dataFactory/TrajectoryFile.js"></script>
 <script type="text/javascript" src="./js/models/dataFactory/GeoLife/GeoLifeDataFormat.js"></script>
 <script type="text/javascript" src="./js/models/dataFactory/SemanticTrajectory/SemanticTrajectoryDataFormat.js"></script>
+<script type="text/javascropt" src="./js/models/dataFactory/Map/NodeDataFormat.js"></script>
+<script type="text/javascript" src="./js/models/dataFactory/Map/WayDataFormat.js"></script>
 
-<script type="text/javascript" src="./js/services/FileParser.js"></script>
+<script type="text/javascript" src="./js/services/TrajectoryFileParser.js"></script>
+<script type="text/javascript" src="./js/services/MapFileParser.js"></script>
 <script type="text/javascript" src="./js/services/ColorGenerator.js"></script>
 <script type="text/javascript" src="./js/services/modal.js"></script>
 

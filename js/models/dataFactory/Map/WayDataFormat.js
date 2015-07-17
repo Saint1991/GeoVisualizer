@@ -3,7 +3,7 @@
 (function() {
 	
 	var modelModule = angular.module('geovisualizer.models');
-	modelModule.Factory('WayDataFormat', function() {
+	modelModule.factory('WayDataFormat', function() {
 
 		var WayDataFormat = function(pointList) {
 
