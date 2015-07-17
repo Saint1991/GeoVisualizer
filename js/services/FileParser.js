@@ -130,11 +130,14 @@
 			},
 
 			'node': function(textContent) {
-
+				
+				var retData = [];
+				lines = textContent.split('\n');
 			},
 
 			'way': function(textContent) {
-
+				var retData = [];
+				lines = textContent.split('\n');
 			}
 		};
 

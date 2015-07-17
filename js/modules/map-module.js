@@ -7,27 +7,175 @@
 
 	//Definition of  google-map Directive.
 	//To display google Map in any elements you can use this directive as an "google-map" attribute
-	mapModule.directive('googleMap', ['$compile', function($compile) {
+	mapModule.directive('googleMap', ['$compile',   function($compile) {
 
 		var googleMapDirective = {
 
-			restrict: 'EA',
-			scope: false,
+			restrict: 'E',
+			scope: {
+				center: '@center',
+				zoom: '&zoom',
+				showMapInfo: '=showMapInfo'
+			},
+			controller: ['$scope', '$timeout', 'MarkerManager', 'Marker', function($scope, $timeout, MarkerManager, Marker) {
+
+				//Associative Array of Definitions of DOMEventHandlers
+				$scope.domEventList = {
+
+				};
+
+				//Associative Array of Definitions of mapEventHandlers
+				$scope.mapEventList = {
+					
+					mousemove: function(event) {
+						
+						var latitude = event.latLng.lat().toFixed(4);
+						var longitude = event.latLng.lng().toFixed(4);
+
+						$scope.mousePoint = {'latitude': latitude, 'longitude': longitude};
+						$scope.$apply();
+					},
+
+					center_changed: function() {
+						
+						var center = this.getCenter();
+
+						var latitude = center.lat().toFixed(4);
+						var longitude = center.lng().toFixed(4);
+
+						$scope.center = {'latitude': latitude, 'longitude': longitude};
+						$timeout(function() {
+							$scope.$apply();
+						});
+					},
+
+					zoom_changed: function() {
+						$scope.zoom = this.getZoom();
+						$timeout(function() {
+							$scope.$apply();
+						});
+					}
+				};
+
+				//mouse point for information
+				$scope.mousePoint = {'latitude': 0, 'longitude': 0};
+				
+				//map center point
+				$scope.center = {'latitude': 0.0000, 'longitude': 0.0000};
+
+				//zoom level Information
+				$scope.zoom = -1;
+
+				//pan center to disignated position
+				var moveTo = function(latitude, longitude) {
+					if (map) {
+						
+						if (latitude instanceof google.maps.LatLng) {
+							map.setCenter(latitude);
+							return;
+						}
+
+						var center = new google.maps.LatLng(latitude, longitude);
+						map.setCenter(center);
+					}
+				};
+
+		
+				var fitBounds = function(topLeft, bottomRight) {
+					if (map) {
+						map.fitBounds(topLeft, bottomRight);
+					}
+				};
+
+				var zoomTo = function(level) {
+					if (map) {
+						map.setZoom(level);
+					}
+				};
+
+				//Init Markers
+				$scope.$on('initMarkers', function(event, markerColors) {
+					
+					MarkerManager.init();
+					for (var id = 0; id < markerColors.length; id++) {
+						var color = markerColors[id];
+						MarkerManager.add(new Marker(color));
+					}
+				});
+
+
+		
+				//behavior when receive the data
+				$scope.$on('dataBroadcast', function(event, receive) {
+					
+					var data = receive.data;
+					if (!data) {
+						console.log('data is empty');
+					}
+
+					for (var id = 0; id < data.length; id++) {
+						
+						var entry = data[id];
+						if (entry.isAlive) {
+
+							if (!entry.data) {
+								continue;
+							}
+							
+							var position = new google.maps.LatLng(entry.data.latitude, entry.data.longitude);
+
+							if (id === 0 && receive.isFirst) {
+								moveTo(position);
+								zoomTo(16);
+							}
+
+							switch (entry.type) {
+								case 'plt':
+								case 'oplt':
+									MarkerManager.setPosition(id, position);
+									MarkerManager.show(id);
+									break;
+								case 'st':
+									var hashInfo = {
+										'category': entry.data.categoryName,
+										'name': entry.data.venueName
+									};
+									MarkerManager.setSimpleInfoWindow(id, hashInfo);
+									MarkerManager.setEventListener(id, 'setPosition', function(marker) {
+										if (marker.infoWindow) {
+											google.maps.event.addListener(marker, 'click', function() {
+												marker.infoWindow.open(marker.getMap(), marker);
+											});
+											marker.infoWindow.open(marker.getMap(), marker);
+										}
+									});
+									MarkerManager.setPosition(id, position);
+									MarkerManager.show(id);
+									break;
+
+								default:
+									MarkerManager.setPosition(id, position);
+									MarkerManager.show(id);
+									break;
+							}
+
+						} else {
+							MarkerManager.hide(id);
+						}
+					}
+
+				});
+
+
+			}],
 			compile: function(bindElement, mapAttrs) {
 
 				var center = angular.fromJson(mapAttrs.center);
 				var zoom = angular.fromJson(mapAttrs.zoom);
 
-				if (!center[0] || !center[1] ||  center[0] < -90 || 90 < center[0] || center[1] < -180 || 180 < center[1]) {
-					console.error('Invalid center value');
-					center = [0, 0];
-				}
-
-				if (!zoom || zoom < 0) {
-					console.error('Invalid zoom value');
-					zoom = 1;
-				}
-
+				console.assert(center[0] && center[1] && -90 <= center[0] && center[0] <= 90 && -180 <= center[1] && center[1] <= 180, 'Invalid Center LatLng');
+				console.assert(zoom && 0 <= zoom, 'Invalid zoom'); 
+				
 				//When bindedElement Compiled, google Map is loaded in it.
 				var mapElement = bindElement[0];
 				map = new google.maps.Map(mapElement, {
@@ -36,14 +184,8 @@
 	                			zoom: zoom
 				});
 
-
 				//Link Function
 				return function($scope, element, attrs ) {
-					
-					//Check whether its scope is mapController
-					if (!$scope.name || $scope.name !== 'mapController') {
-						throw "mapController is not bound";
-					}
 
 					//Initialize the scope value
 					var center = map.getCenter();
@@ -53,7 +195,7 @@
 					$scope.zoom = map.getZoom();
 
 					//Add MapInformationWindow if showmapinfo attribute value is 'true'
-					var showInfoWindow = attrs.showmapinfo === 'true';
+					var showInfoWindow = $scope['showMapInfo'];
 					if (showInfoWindow) {
 
 						var mapInformationDiv = document.createElement('div');
@@ -320,158 +462,9 @@
 	}]);
 
 	//Definition of mapController
-	var mapController = mapModule.controller('mapController', ['$scope', '$timeout', 'MarkerManager', 'Marker', function($scope, $timeout, MarkerManager, Marker) {
-		
-		//ControllerName
-		$scope.name = 'mapController';
-
-		//Associative Array of Definitions of DOMEventHandlers
-		$scope.domEventList = {
-
-		};
-
-		//Associative Array of Definitions of mapEventHandlers
-		$scope.mapEventList = {
-			
-			mousemove: function(event) {
-				
-				var latitude = event.latLng.lat().toFixed(4);
-				var longitude = event.latLng.lng().toFixed(4);
-
-				$scope.mousePoint = {'latitude': latitude, 'longitude': longitude};
-				$scope.$apply();
-			},
-
-			center_changed: function() {
-				
-				var center = this.getCenter();
-
-				var latitude = center.lat().toFixed(4);
-				var longitude = center.lng().toFixed(4);
-
-				$scope.center = {'latitude': latitude, 'longitude': longitude};
-				$timeout(function() {
-					$scope.$apply();
-				});
-			},
-
-			zoom_changed: function() {
-				$scope.zoom = this.getZoom();
-				$timeout(function() {
-					$scope.$apply();
-				});
-			}
-		};
-
-
-		//pan center to disignated position
-		var moveTo = function(latitude, longitude) {
-			if (map) {
-				
-				if (latitude instanceof google.maps.LatLng) {
-					map.setCenter(latitude);
-					return;
-				}
-
-				var center = new google.maps.LatLng(latitude, longitude);
-				map.setCenter(center);
-			}
-		};
+	var mapController = mapModule.controller('mapController', ['$scope', function($scope) {
 
 		
-		var fitBounds = function(topLeft, bottomRight) {
-			if (map) {
-				map.fitBounds(topLeft, bottomRight);
-			}
-		};
-
-		var zoomTo = function(level) {
-			if (map) {
-				map.setZoom(level);
-			}
-		};
-
-
-		//Init Markers
-		$scope.$on('initMarkers', function(event, markerColors) {
-			
-			MarkerManager.init();
-			for (var id = 0; id < markerColors.length; id++) {
-				var color = markerColors[id];
-				MarkerManager.add(new Marker(color));
-			}
-		});
-
-		//behavior when receive the data
-		$scope.$on('dataBroadcast', function(event, receive) {
-			
-			var data = receive.data;
-			if (!data) {
-				console.log('data is empty');
-			}
-
-			for (var id = 0; id < data.length; id++) {
-				
-				var entry = data[id];
-				if (entry.isAlive) {
-
-					if (!entry.data) {
-						continue;
-					}
-					
-					var position = new google.maps.LatLng(entry.data.latitude, entry.data.longitude);
-
-					if (id === 0 && receive.isFirst) {
-						moveTo(position);
-						zoomTo(16);
-					}
-
-					switch (entry.type) {
-						case 'plt':
-						case 'oplt':
-							MarkerManager.setPosition(id, position);
-							MarkerManager.show(id);
-							break;
-						case 'st':
-							var hashInfo = {
-								'category': entry.data.categoryName,
-								'name': entry.data.venueName
-							};
-							MarkerManager.setSimpleInfoWindow(id, hashInfo);
-							MarkerManager.setEventListener(id, 'setPosition', function(marker) {
-								if (marker.infoWindow) {
-									google.maps.event.addListener(marker, 'click', function() {
-										marker.infoWindow.open(marker.getMap(), marker);
-									});
-									marker.infoWindow.open(marker.getMap(), marker);
-								}
-							});
-							MarkerManager.setPosition(id, position);
-							MarkerManager.show(id);
-							break;
-
-						default:
-							MarkerManager.setPosition(id, position);
-							MarkerManager.show(id);
-							break;
-					}
-
-				} else {
-					MarkerManager.hide(id);
-				}
-			}
-
-		});
-
-		//mouse point for information
-		$scope.mousePoint = {'latitude': 0, 'longitude': 0};
-		
-		//map center point
-		$scope.center = {'latitude': 0.0000, 'longitude': 0.0000};
-
-		//zoom level Information
-		$scope.zoom = -1;
-
 	}]);
 
 })();

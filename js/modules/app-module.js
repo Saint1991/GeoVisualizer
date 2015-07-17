@@ -4,7 +4,7 @@
 
 	var appModule = angular.module('geovisualizer');
 
-	appModule.controller('appController', ['$scope', 'FileManager', 'ColorGenerator', function($scope, FileManager, ColorGenerator) {
+	appModule.controller('appController', ['$scope', 'TrajectoryFileManager', 'ColorGenerator', function($scope, TrajectoryFileManager, ColorGenerator) {
 
 		var indexes;
 
@@ -16,12 +16,8 @@
 			}
 
 			var key = indexes[sliderValue];
-			var data = FileManager.get(key);
-			if (!data) {
-				console.error('Invalid key value');
-				return;
-			}
-
+			var data = TrajectoryFileManager.get(key);
+			console.assert(data, 'Invalid key');
 			var isFirst = sliderValue === 0;
 			$scope.$broadcast('dataBroadcast', {'data': data, 'isFirst': isFirst, 'label': key});
 		});
@@ -31,15 +27,15 @@
 			
 			ColorGenerator.init();
 			var markerColors = [];
-			var fileNum = FileManager.getLength();
+			var fileNum = TrajectoryFileManager.getLength();
 			for (var id = 0; id < fileNum; id++) {
 				var color = ColorGenerator.getColor();
-				FileManager.setColor(id, color);
+				TrajectoryFileManager.setColor(id, color);
 				markerColors.push(color);
 			}
 			$scope.$broadcast('initMarkers', markerColors);
 
-			indexes = FileManager.getIndexes();			
+			indexes = TrajectoryFileManager.getIndexes();			
 			$scope.$broadcast('initSlider', indexes.length - 1);
 		});
 	}]);
