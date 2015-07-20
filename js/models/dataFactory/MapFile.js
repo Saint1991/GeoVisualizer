@@ -9,7 +9,6 @@
 			this.name = name;
 			this.data = data;
 			this.size = size;
-			this.isAlive = true;
 		};
 
 		return MapFIle;

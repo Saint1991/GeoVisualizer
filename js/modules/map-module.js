@@ -17,7 +17,7 @@
 				zoom: '&zoom',
 				showMapInfo: '=showMapInfo'
 			},
-			controller: ['$scope', '$timeout', 'MarkerManager', 'Marker', function($scope, $timeout, MarkerManager, Marker) {
+			controller: ['$scope', '$timeout', 'MarkerManager', 'Marker', 'Point', function($scope, $timeout, MarkerManager, Marker, Point) {
 
 				//Associative Array of Definitions of DOMEventHandlers
 				$scope.domEventList = {
@@ -164,6 +164,28 @@
 
 				});
 
+				//Map系のファイル読み込み時
+				$scope.$on('showMapComponent', function(event, receive) {
+					
+					var type = receive.type;
+					var data = receive.data;
+
+					switch (type) {
+						case 'node':
+							if (!data && data.length > 0) {
+								data.forEach(function(nodeFormat) {
+									var position = new google.maps.LatLng(nodeFormat.latitude, nodeFormat.longitude);
+									var point = new Point(position, nodeFormat.name);
+									point.setMap(map);
+								});
+							}
+							
+							break;
+						case 'way':
+							break;	
+					}
+				});
+
 
 			}],
 			compile: function(bindElement, mapAttrs) {
@@ -298,6 +320,51 @@
 		};
 
 		return Marker;
+	}]);
+
+	mapModule.factory('Point', [function() {
+
+		var pointMarker = function(position, positionName) {
+
+			console.assert(!(position instanceof google.maps.LatLng), 'Invalid position instance');
+
+			var markerOptions = {
+				map: map,
+				icon: {
+					path: google.maps.SymbolPath.CIRCLE,
+					fillColor: 'Lime',
+					fillOpacity: 1,
+					scale: 5,
+					strokeWeight: 0,
+					position: position
+				}
+			};
+
+			var marker = new google.maps.Marker(markerOptions);
+			if (positionName instanceof String) {
+				
+				var infoDiv = document.createElement('div');
+				infoDiv.style.width = '230px';
+				infoDiv.style.textAlign = 'left';
+				var infoWindow = new google.maps.InfoWindow({
+					maxWidth: 300,
+					pixelOffset: new google.maps.Size(0, 5),
+					content: infoDiv
+				});
+
+				google.maps.event.addListener(marker, 'mouseover', function() {
+					infoWindow.show();
+				});
+
+				google.maps.event.addListener(marker, 'mouseout', function() {
+					infoWindow.close();
+				});	
+			}
+
+			return marker;	
+		};
+
+		return pointMarker;
 	}]);
 
 	mapModule.factory('SimpleInfoWindow', [function(){
@@ -463,7 +530,6 @@
 
 	//Definition of mapController
 	var mapController = mapModule.controller('mapController', ['$scope', function($scope) {
-
 		
 	}]);
 
