@@ -2,7 +2,7 @@
 
 (function() {
 	
-	var modelModule  = aungular.module('geovisualizer.models');
+	var modelModule  = angular.module('geovisualizer.models');
 	modelModule.factory('NodeDataFormat', function() {
 
 		var NodeDataFormat = function(name, latitude, longitude) {

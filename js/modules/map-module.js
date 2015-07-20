@@ -179,9 +179,14 @@
 									point.setMap(map);
 								});
 							}
-							
 							break;
+
 						case 'way':
+							if (!data && data.length > 0) {
+								data.forEach(function(wayFormat) {
+
+								});
+							}
 							break;	
 					}
 				});

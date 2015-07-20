@@ -11,7 +11,7 @@
 			this.size = size;
 		};
 
-		return MapFIle;
+		return MapFile;
 	}]);
 
 })();
