@@ -4,14 +4,13 @@
 		<li ng-repeat="file in fileList" class="file-entry" context-menu data-target="context-filelist">
 			<div class="fileName">{{file.name}}</div>
 			<div class="fileSize">{{file.size}} Byte</div>
-			<input type="checkbox" ng-model="file.isAlive" class="fileColorLabel">
 		</li>
 	</ul>
 		
 </div>
 
 <div class="file-api" >
-	<input class="file" type="file" multiple="true" name="fileList" data-trajectory-file-change>
+	<input class="file" type="file" multiple="true" name="fileList" data-map-file-change>
 	<input type="button" class="file-add-button" value="Add" >
 </div>
 

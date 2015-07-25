@@ -18,7 +18,7 @@
 
 			this.name = name;
 			this.latitude = latitude;
-			this.lognitude = longitude;
+			this.longitude = longitude;
 		};
 		
 		return NodeDataFormat;

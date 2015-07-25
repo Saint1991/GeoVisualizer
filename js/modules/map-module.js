@@ -172,7 +172,7 @@
 
 					switch (type) {
 						case 'node':
-							if (!data && data.length > 0) {
+							if (data && data.length > 0) {
 								data.forEach(function(nodeFormat) {
 									var position = new google.maps.LatLng(nodeFormat.latitude, nodeFormat.longitude);
 									var point = new Point(position, nodeFormat.name);
@@ -331,26 +331,25 @@
 
 		var pointMarker = function(position, positionName) {
 
-			console.assert(!(position instanceof google.maps.LatLng), 'Invalid position instance');
+			console.assert(position instanceof google.maps.LatLng, 'Invalid position instance');
 
-			var markerOptions = {
-				map: map,
+			var marker = new google.maps.Marker({
+				position: position,
 				icon: {
 					path: google.maps.SymbolPath.CIRCLE,
-					fillColor: 'Lime',
+					fillColor: '#20FF1C',
 					fillOpacity: 1,
-					scale: 5,
-					strokeWeight: 0,
-					position: position
+					scale: 8,
+					strokeWeight: 1,
 				}
-			};
-
-			var marker = new google.maps.Marker(markerOptions);
-			if (positionName instanceof String) {
+			});
+			
+			if (typeof(positionName === 'string')) {
 				
 				var infoDiv = document.createElement('div');
+				infoDiv.textContent = positionName;
 				infoDiv.style.width = '230px';
-				infoDiv.style.textAlign = 'left';
+				infoDiv.style.textAlign = 'center';
 				var infoWindow = new google.maps.InfoWindow({
 					maxWidth: 300,
 					pixelOffset: new google.maps.Size(0, 5),
@@ -358,7 +357,7 @@
 				});
 
 				google.maps.event.addListener(marker, 'mouseover', function() {
-					infoWindow.show();
+					infoWindow.open(map, marker);
 				});
 
 				google.maps.event.addListener(marker, 'mouseout', function() {
@@ -449,22 +448,13 @@
 			var methodName =  'setPosition';
 
 			var marker = markerList[id];
-			if (!marker) {
-				console.log('Invalid Marker ID');
-				return;
-			}
-
-			if (!(position instanceof google.maps.LatLng)) {
-				console.error('position is not instance of google.maps.LatLng');
-				return;
-			}
-
+			console.assert(marker, 'Invalid Marker ID');
+			console.assert(position instanceof google.maps.LatLng, 'position is not instance of LatLng');
 			marker.setPosition(position);
 			if (methodName in marker.eventList) {
 				var callback = marker.eventList[methodName];
 				callback(marker);
 			}
-			
 		};
 
 		
