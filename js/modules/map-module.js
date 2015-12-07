@@ -144,7 +144,6 @@
 											google.maps.event.addListener(marker, 'click', function() {
 												marker.infoWindow.open(marker.getMap(), marker);
 											});
-											marker.infoWindow.open(marker.getMap(), marker);
 										}
 									});
 									MarkerManager.setPosition(id, position);
