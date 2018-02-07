@@ -25,6 +25,16 @@ Note that the file extension should be `.node`
 
 ```
 
+## run in Docker container
+
+You can start the app as following:
+```
+$ docker-compose up
+```
+
+You'll see it on your browser.
+`http://$(ip of your docker machine):8080`
+
 ## License
 
 This application is opened under the MIT License, see LICENSE.txt
