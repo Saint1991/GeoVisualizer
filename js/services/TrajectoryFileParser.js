@@ -16,7 +16,7 @@
 				for (var i = 0; i < lines.length - 1; i++) {
 					
 					var lineArray = lines[i].split(',');
-					if (lineArray.length !== 4) {
+					if (lineArray.length !== 3 && lineArray.length !== 4) {
 						continue;
 					}
 
